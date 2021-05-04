@@ -4,14 +4,64 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" type="images" href="images/favicon.png">
+  <link href="css/fontawesome.min.css" rel="stylesheet">
+  <link href="css/light.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lato&family=Roboto&display=swap" rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="css/modern-normalize.min.css">
   <link type="text/css" rel="stylesheet" href="css/styles.css">
   <title>ToDo</title>
 </head>
-<body>
-  <h1>ToDo</h1>
+<body id="body">
+  <header id="header">
+    <h1 class="logo"><i class="fal fa-tasks"></i> ToDo</h1>
+  </header>
+  <nav id="nav-bar">
+    <div class="nav-links">
+      <a class="nav-link selected-link" href="#">
+        <i class="fal fa-calendar-alt padding-right"></i> All
+      </a>
+      <a href="#" class="nav-link">
+        <i class="fal fa-calendar-day padding-right"></i> Today
+      </a>
+      <a href="#" class="nav-link">
+        <i class="fal fa-calendar-week padding-right"></i> This Week
+      </a>
+    </div>
+    <div id="nav-projects">
+      <p class="nav-projects-title">
+        <i class="fal fa-tasks-alt padding-right"></i> Projects
+        <i class="fal fa-plus-circle hover-icon float-right"></i>
+      </p>
+      <div class="nav-projects-list">
+        <a href="#" class="nav-link selected-link">Coding
+          <div class="float-right">
+            <i class="fal fa-edit hover-icon"></i>
+            <i class="fal fa-trash-alt hover-icon"></i>
+            <i class="fal fa-question hover-icon"></i>
+          </div>
+        </a>
+        <a href="#" class="nav-link">Gardening
+          <div class="float-right">
+            <i class="fal fa-edit hover-icon"></i>
+            <i class="fal fa-trash-alt hover-icon"></i>
+            <i class="fal fa-question hover-icon"></i>
+          </div>
+        </a>
+        <a href="#" class="nav-link">Exercising
+          <div class="float-right">
+            <i class="fal fa-edit hover-icon"></i>
+            <i class="fal fa-trash-alt hover-icon"></i>
+            <i class="fal fa-question hover-icon"></i>
+          </div>
+        </a>
+      </div>
+    </div>
+  </nav>
+  <main id="main">
 
+  </main>
   <script type="text/javascript" src="main.js"></script>
 </body>
 </html>
