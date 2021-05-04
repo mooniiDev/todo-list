@@ -15,7 +15,7 @@
   \**********************/
 /***/ (() => {
 
-eval("console.log('Here will be my ToDo app!');\n\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
+eval("\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
 
 /***/ })
 
