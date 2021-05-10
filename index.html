@@ -15,9 +15,18 @@
 </head>
 <body id="body">
   <header id="header">
-    <h1 class="logo"><i class="fal fa-tasks"></i> ToDo</h1>
+    <!-- MENU TOGGLE -->
+    <div class="toggle-menu">
+      <div class="burger-line"></div>
+      <div class="burger-line"></div>
+      <div class="burger-line"></div>
+    </div>
+    <!-- LOGO -->
+    <p class="logo"><i class="fal fa-tasks padding-right"></i>ToDo</p>
   </header>
-  <nav id="nav-bar">
+
+  <!-- SIDE MENU -->
+  <nav id="sidebar-menu">
     <div class="nav-links">
       <a class="nav-link selected-link" href="#">
         <i class="fal fa-calendar-alt padding-right"></i> All
@@ -26,39 +35,48 @@
         <i class="fal fa-calendar-day padding-right"></i> Today
       </a>
       <a href="#" class="nav-link">
-        <i class="fal fa-calendar-week padding-right"></i> This Week
+        <i class="fal fa-calendar-week padding-right"></i> Week
       </a>
     </div>
     <div id="nav-projects">
       <p class="nav-projects-title">
         <i class="fal fa-tasks-alt padding-right"></i> Projects
-        <i class="fal fa-plus-circle hover-icon float-right"></i>
+        <i class="fal fa-plus-circle hover-icon float-right">
+          <span class="tooltip-text">Add New Project</span>
+        </i>
       </p>
       <div class="nav-projects-list">
         <a href="#" class="nav-link selected-link">Coding
           <div class="float-right">
             <i class="fal fa-edit hover-icon"></i>
             <i class="fal fa-trash-alt hover-icon"></i>
-            <i class="fal fa-question hover-icon"></i>
           </div>
         </a>
         <a href="#" class="nav-link">Gardening
           <div class="float-right">
             <i class="fal fa-edit hover-icon"></i>
             <i class="fal fa-trash-alt hover-icon"></i>
-            <i class="fal fa-question hover-icon"></i>
           </div>
         </a>
         <a href="#" class="nav-link">Exercising
           <div class="float-right">
             <i class="fal fa-edit hover-icon"></i>
             <i class="fal fa-trash-alt hover-icon"></i>
-            <i class="fal fa-question hover-icon"></i>
           </div>
         </a>
       </div>
     </div>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+      <p class="crafted-by"> ☽ Crafted by
+        <a href="https://github.com/mooniiDev" target="_blank" class="footer-link">mooniiDev</a> |
+        <a href="https://github.com/mooniiDev/todo-list" target="_blank" class="footer-link">Source</a> ☾
+      </p>
+    </footer>
   </nav>
+
+  <!-- MAIN CONTENT -->
   <main id="main">
 
   </main>
