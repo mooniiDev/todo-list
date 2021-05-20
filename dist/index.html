@@ -37,28 +37,25 @@
       <a href="#" class="nav-link">
         <i class="fal fa-calendar-week padding-right"></i> Week
       </a>
+      <a href="#" class="nav-link">
+        <i class="fal fa-calendar-star padding-right"></i> Important
+      </a>
     </div>
     <div id="nav-projects">
       <p class="nav-projects-title">
         <i class="fal fa-tasks-alt padding-right"></i> Projects
-        <i class="fal fa-plus-circle hover-icon float-right">
+        <i class="fal fa-plus-circle add-project hover-icon float-right">
           <span class="tooltip-text">Add New Project</span>
         </i>
       </p>
       <div class="nav-projects-list">
-        <a href="#" class="nav-link selected-link">Coding
+        <a href="#" class="nav-link project-link selected-link">Learning
           <div class="float-right">
             <i class="fal fa-edit hover-icon"></i>
             <i class="fal fa-trash-alt hover-icon"></i>
           </div>
         </a>
-        <a href="#" class="nav-link">Gardening
-          <div class="float-right">
-            <i class="fal fa-edit hover-icon"></i>
-            <i class="fal fa-trash-alt hover-icon"></i>
-          </div>
-        </a>
-        <a href="#" class="nav-link">Exercising
+        <a href="#" class="nav-link project-link">Gardening
           <div class="float-right">
             <i class="fal fa-edit hover-icon"></i>
             <i class="fal fa-trash-alt hover-icon"></i>
@@ -78,8 +75,85 @@
 
   <!-- MAIN CONTENT -->
   <main id="main">
-
   </main>
+
+  <!-- MODAL -->
+  <div id="modal" class="close display-none">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2><span class="modal-title"></span></h2>
+        <i class="fal fa-times close-modal close"></i>
+      </div>
+      <div class="modal-content">
+        <form id="form" name="form" method="POST">
+          <div>
+            <label id="title-label" for="title">Title</label>
+            <input type="text" id="title" name="title" autocomplete="off">
+            <p class="title-error display-none">Please fill out this field.</p>
+          </div>
+          <div class="radio-form display-block">
+            <p>Icon</p>
+            <!-- RADIO BUTTONS -->
+            <div class="project-icons">
+              <label class="radio-before">
+                <span class="radio-input">
+                  <input type="radio" id="flower" name="icon" value="fa-flower-daffodil" checked>
+                  <span class="radio-control"><i class="fal fa-flower-daffodil fa-fw"></i></span>
+                </span>
+              </label>
+              <label class="radio-before">
+                <span class="radio-input">
+                  <input type="radio" id="book" name="icon" value="fa-book">
+                  <span class="radio-control"><i class="fal fa-book fa-fw"></i></span>
+                </span>
+              </label>
+              <label class="radio-before">
+                <span class="radio-input">
+                  <input type="radio" id="pencil-paintbrush" name="icon" value="fa-pencil-paintbrush">
+                  <span class="radio-control"><i class="fal fa-pencil-paintbrush fa-fw"></i></span>
+                </span>
+              </label>
+              <label class="radio-before">
+                <span class="radio-input">
+                  <input type="radio" id="dumbbell" name="icon" value="fa-dumbbell">
+                  <span class="radio-control"><i class="fal fa-dumbbell fa-fw"></i></span>
+                </span>
+              </label>
+              <label class=" radio radio-before">
+                <span class="radio-input">
+                  <input type="radio" id="badge-dollar" name="icon" value="fa-badge-dollar">
+                  <span class="radio-control"><i class="fal fa-badge-dollar fa-fw"></i></span>
+                </span>
+              </label>
+              <label class="radio radio-before">
+                <span class="radio-input">
+                  <input type="radio" id="pizza" name="icon" value="fa-pizza">
+                  <span class="radio-control"><i class="fal fa-pizza fa-fw"></i></span>
+                </span>
+              </label>
+              <label class="radio-before">
+                <span class="radio-input">
+                  <input type="radio" id="tools" name="icon" value="fa-tools">
+                  <span class="radio-control"><i class="fal fa-tools fa-fw"></i></span>
+                </span>
+              </label>
+              <label class="radio-before">
+                <span class="radio-input">
+                  <input type="radio" id="rv" name="icon" value="fa-rv">
+                  <span class="radio-control"><i class="fal fa-rv fa-fw"></i></span>
+                </span>
+              </label>
+            </div>
+          </div>
+        </form>
+        <div class="modal-options">
+          <button type="button" class="cancel-modal close">Cancel</button>
+          <button type="button" class="confirm-modal"><span class="modal-task"></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script type="text/javascript" src="main.js"></script>
 </body>
 </html>

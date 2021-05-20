@@ -1,6 +1,6 @@
 import dom from './dom';
 
-const handler = (() => {
+const handlers = (() => {
   // RESIZE MENU DEPENDING ON WINDOW SIZE
   function resizeWindow() {
     window.addEventListener('resize', dom.responsiveMenu);
@@ -8,9 +8,13 @@ const handler = (() => {
 
   function listenClicks() {
     document.addEventListener('click', (event) => {
-      // TOGGLE MENU WITH BUTTON PUSH
-      if (event.target.classList.contains('toggle-menu') || event.target.classList.contains('burger-line')) {
+      const { target } = event;
+      if (target.classList.contains('toggle-menu') || event.target.classList.contains('burger-line')) {
         dom.toggleMenu();
+      } else if (target.classList.contains('add-project')) {
+        dom.manipulateModal('show', 'Add New Project', 'Add');
+      } else if (target.classList.contains('close')) {
+        dom.manipulateModal('close');
       }
     });
   }
@@ -21,4 +25,4 @@ const handler = (() => {
   };
 })();
 
-export default handler;
+export default handlers;

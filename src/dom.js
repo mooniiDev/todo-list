@@ -2,9 +2,12 @@ const dom = (() => {
   const menuIcon = document.querySelector('.toggle-menu');
   const sidebarMenu = document.querySelector('#sidebar-menu');
   const mainContent = document.querySelector('#main');
+  const modal = document.querySelector('#modal');
+  const modalTitle = document.querySelector('.modal-title');
+  const modalTask = document.querySelector('.modal-task');
 
   function responsiveMenu() {
-    if (window.innerWidth <= 800) {
+    if (window.innerWidth <= 1000) {
       menuIcon.classList.remove('active');
       sidebarMenu.classList.remove('show-sidebar');
       sidebarMenu.classList.add('hide-sidebar');
@@ -32,9 +35,24 @@ const dom = (() => {
     }
   }
 
+  function manipulateModal(state, title, task) {
+    const form = document.querySelector('#form');
+    form.reset();
+    if (state === 'show') {
+      modal.classList.remove('display-none');
+      modal.classList.add('display-block');
+      modalTitle.textContent = title;
+      modalTask.textContent = task;
+    } else if (state === 'close') {
+      modal.classList.remove('display-block');
+      modal.classList.add('display-none');
+    }
+  }
+
   return {
     responsiveMenu,
     toggleMenu,
+    manipulateModal,
   };
 })();
 
