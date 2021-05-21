@@ -107,13 +107,13 @@ button:focus {
   overflow: auto;
   height: 100%;
   width: 300px;
-  padding-top: 20px;
+  padding: 40px 20px;
   background-color: var(--light-grey);
   transition: transform 250ms;
 }
 .nav-link {
   display: block;
-  margin: 20px;
+  margin-bottom: 20px;
   padding: 12px 20px;
   background-color: var(--white);
   font-size: 18px;
@@ -123,7 +123,7 @@ button:focus {
   border-radius: 5px;
   transition: .3s;
 }
-.nav-projects-list i:hover {
+.float-right i:hover {
   transform: scale(1.2);
 }
 .selected-link {
@@ -138,7 +138,8 @@ button:focus {
   transition: .3s;
 }
 .nav-projects-title {
-  margin: 80px 40px 0px 40px;
+  margin: 80px 0 20px 0;
+  padding: 0 20px;
   font-size: 18px;
 }
 
@@ -191,11 +192,13 @@ button:focus {
 
 /* FOOTER */
 #footer {
-  margin: 120px 0;
+  margin-top: 80px;
   text-align: center;
+  border-top: 1px solid var(--dark-grey);
 }
 .crafted-by {
-  margin: 0;
+  margin: 10px 0;
+  font-size: 15px;
 }
 .footer-link {
   text-decoration: none;
