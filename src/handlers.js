@@ -9,11 +9,18 @@ const handlers = (() => {
   function listenClicks() {
     document.addEventListener('click', (event) => {
       const { target } = event;
-      if (target.classList.contains('toggle-menu') || event.target.classList.contains('burger-line')) {
+
+      if (target.classList.contains('toggle-menu') || target.classList.contains('burger-line')) {
+        // SIDE MENU TOGGLE
         dom.toggleMenu();
       } else if (target.classList.contains('add-project')) {
+        // ADD PROJECT MODAL
         dom.manipulateModal('show', 'Add New Project', 'Add');
+      } else if (target.classList.contains('confirm-modal')) {
+        // VALIDATE MODAL INFORMATION
+        dom.validateModal();
       } else if (target.classList.contains('close')) {
+        // CLOSE MODAL
         dom.manipulateModal('close');
       }
     });

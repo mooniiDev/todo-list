@@ -7,6 +7,7 @@
   --light-grey: #F7F7F7;
   --dark-grey: #717171;
   --white: #FFFFFF;
+  --red: #C95555;
 }
 
 /* GENERAL STYLES */
@@ -307,6 +308,11 @@ button:focus {
 }
 .confirm-modal:hover {
   background-color: var(--dark-aqua);
+}
+.title-error {
+  margin: -15px 0 20px 0;
+  font-size: 13px;
+  color: var(--red);
 }
 
 /* PROJECTS MODAL RADIO BUTTONS - ICONS */
