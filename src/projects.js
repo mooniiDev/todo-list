@@ -11,7 +11,6 @@ const projects = (() => {
   function addProject(title, icon) {
     const project = new Project(title, icon);
     projectsList.push(project);
-    console.log(project, projectsList);
   }
 
   return {
