@@ -17,9 +17,9 @@
   },
   "homepage": "https://github.com/mooniiDev/todo-list#readme",
   "devDependencies": {
-    "eslint": "^7.26.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.23.2",
+    "eslint-plugin-import": "^2.24.2",
     "webpack": "^5.37.1",
     "webpack-cli": "^4.7.0"
   }

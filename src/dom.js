@@ -62,27 +62,12 @@ const dom = (() => {
     }
   }
 
-  function manipulateModal(state, name, task) {
-    const form = document.querySelector('#form');
-    form.reset();
-    titleError.classList.remove('show');
-    titleError.classList.add('hide');
-    if (state === 'show') {
-      modal.classList.remove('hide');
-      modal.classList.add('show');
-      modalName.textContent = name;
-      modalTask.textContent = task;
-    } else if (state === 'close') {
-      modal.classList.remove('show');
-      modal.classList.add('hide');
-    }
-  }
-
-  function showProject(icon, name) {
+  function addNewProject(icon, name) {
     const navProjects = document.querySelector('#nav-projects');
     const projectLink = document.createElement('a');
     const projectIcon = document.createElement('i');
     const projectName = document.createElement('p');
+
     const projectIconsDiv = document.createElement('div');
     const projectEditIcon = document.createElement('i');
     const projectTrashIcon = document.createElement('i');
@@ -107,6 +92,22 @@ const dom = (() => {
     navProjects.appendChild(projectLink);
   }
 
+  function manipulateModal(state, name, task) {
+    const form = document.querySelector('#form');
+    form.reset();
+    titleError.classList.remove('show');
+    titleError.classList.add('hide');
+    if (state === 'show') {
+      modal.classList.remove('hide');
+      modal.classList.add('show');
+      modalName.textContent = name;
+      modalTask.textContent = task;
+    } else if (state === 'close') {
+      modal.classList.remove('show');
+      modal.classList.add('hide');
+    }
+  }
+
   function validateModal() {
     const { icon } = document.forms.form;
     if (title.value === '') {
@@ -114,7 +115,7 @@ const dom = (() => {
       titleError.classList.add('show');
     } else {
       projects.addProject(title.value, icon.value);
-      showProject(icon.value, title.value);
+      addNewProject(icon.value, title.value);
       manipulateModal('close');
     }
   }
@@ -126,7 +127,7 @@ const dom = (() => {
     selectProject,
     manipulateModal,
     validateModal,
-    showProject,
+    addNewProject,
   };
 })();
 
