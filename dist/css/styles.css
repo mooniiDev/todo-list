@@ -43,24 +43,6 @@ button:focus {
 .hover-icon:hover {
   cursor: pointer;
 }
-/* Toggled Menu Styles */
-.show-sidebar {
-  -webkit-transform: translateX(0);
-  transform: translateX(0);
-}
-.hide-sidebar {
-  -webkit-transform: translateX(-300px);
-  transform: translateX(-300px);
-}
-.expand-main {
-  margin-left: 0;
-}
-.contract-main {
-  margin-left: 300px;
-}
-.darker-backround {
-  background-color: rgba(104, 104, 104, 0.85);
-}
 
 /* HEADER */
 #header {
@@ -344,7 +326,7 @@ button:focus {
 .confirm-modal:hover {
   background-color: var(--dark-aqua);
 }
-.title-error {
+.project-title-error {
   margin: -15px 0 20px 0;
   font-size: 13px;
   color: var(--red);

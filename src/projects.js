@@ -1,7 +1,7 @@
 import dom from './dom';
 
 const projects = (() => {
-  const projectsList = [];
+  const projectsList = [{ icon: 'fa-laptop-code', title: 'Learning JS' }];
 
   class Project {
     constructor(icon, title) {
@@ -16,9 +16,14 @@ const projects = (() => {
     dom.showProjects();
   }
 
+  function editProject(icon, title) {
+    console.log(icon, title);
+  }
+
   return {
     projectsList,
     addProject,
+    editProject,
   };
 })();
 

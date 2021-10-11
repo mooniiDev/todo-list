@@ -28,6 +28,7 @@ const handlers = (() => {
         // MODAL TO EDIT PROJECT
       } else if (target.classList.contains('edit-project')) {
         dom.manipulateModal('show', 'Edit Your Project', 'Edit');
+        dom.editProject(target);
       // MODAL TO DELETE PROJECT
       } else if (target.classList.contains('delete-project')) {
         dom.manipulateModal('show', 'Delete Your Project', 'Delete');

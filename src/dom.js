@@ -5,10 +5,10 @@ const dom = (() => {
   const sidebarMenu = document.querySelector('#sidebar-menu');
   const mainContent = document.querySelector('#main');
   const modal = document.querySelector('#modal');
-  const modalName = document.querySelector('.modal-name');
+  const modalTitle = document.querySelector('.modal-title');
   const modalTask = document.querySelector('.modal-task');
-  const modalTitle = document.querySelector('#title');
-  const modalTitleError = document.querySelector('.title-error');
+  const projectTitle = document.querySelector('#project-title');
+  const projectTitleError = document.querySelector('.project-title-error');
 
   function responsiveMenu() {
     if (window.innerWidth <= 1000) {
@@ -62,15 +62,20 @@ const dom = (() => {
     }
   }
 
-  function manipulateModal(state, name, task) {
+  function editProject(target) {
+    const projectIndex = target.getAttribute('data-index');
+    projectTitle.value = projects.projectsList[projectIndex].title;
+  }
+
+  function manipulateModal(state, title, task) {
     const form = document.querySelector('#form');
     form.reset();
-    modalTitleError.classList.remove('show');
-    modalTitleError.classList.add('hide');
+    projectTitleError.classList.remove('show');
+    projectTitleError.classList.add('hide');
     if (state === 'show') {
       modal.classList.remove('hide');
       modal.classList.add('show');
-      modalName.textContent = name;
+      modalTitle.textContent = title;
       modalTask.textContent = task;
     } else if (state === 'close') {
       modal.classList.remove('show');
@@ -79,15 +84,17 @@ const dom = (() => {
   }
 
   function validateModal(task) {
-    const { modalIcon } = document.forms.form;
-    if (modalTitle.value === '') {
-      modalTitleError.classList.remove('hide');
-      modalTitleError.classList.add('show');
+    const { projectIcon } = document.forms.form;
+    if (projectTitle.value === '') {
+      projectTitleError.classList.remove('hide');
+      projectTitleError.classList.add('show');
+    // ADD PROJECT TO ARRAY
     } else if (task === 'add') {
-      // ADD PROJECT TO ARRAY AND DOM
-      projects.addProject(modalIcon.value, modalTitle.value);
+      projects.addProject(projectIcon.value, projectTitle.value);
+    // EDIT PROJECT FROM ARRAY
     } else if (task === 'edit') {
-      manipulateModal('close');
+      projects.editProject(projectIcon.value, projectTitle.value);
+      // editProject();
     } else if (task === 'delete') {
       manipulateModal('close');
     }
@@ -99,27 +106,30 @@ const dom = (() => {
     for (let i = 0; i < projects.projectsList.length; i += 1) {
       const projectLink = document.createElement('a');
       const projectIcon = document.createElement('i');
-      const projectTitle = document.createElement('p');
+      const projectText = document.createElement('p');
       const projectIconsDiv = document.createElement('div');
       const projectEditIcon = document.createElement('i');
       const projectTrashIcon = document.createElement('i');
       // PROJECT LINK
-      projectLink.setAttribute('href', '#');
-      projectLink.setAttribute('index', [i]);
       projectLink.classList.add('nav-link', 'project-link');
+      projectLink.setAttribute('href', '#');
+      projectLink.setAttribute('data-index', i);
       // PROJECT SELECTED ICON
       projectIcon.classList.add('fal', 'project-icon', projects.projectsList[i].icon, 'fa-fw', 'padding-right');
       projectIconsDiv.classList.add('float-right');
-      // PROJECT NAME
-      projectTitle.classList.add('project-text');
-      projectTitle.textContent = projects.projectsList[i].title;
+      // PROJECT TEXT
+      projectText.classList.add('project-text');
+      projectText.textContent = projects.projectsList[i].title;
+      // PROJECT DEFAULT ICONS
       projectEditIcon.classList.add('fal', 'fa-edit', 'padding-right', 'edit-project', 'hover-icon');
+      projectEditIcon.setAttribute('data-index', i);
       projectTrashIcon.classList.add('fal', 'fa-trash-alt', 'delete-project', 'hover-icon');
+      projectTrashIcon.setAttribute('data-index', i);
       // APPENDS
       projectIconsDiv.appendChild(projectEditIcon);
       projectIconsDiv.appendChild(projectTrashIcon);
       projectLink.appendChild(projectIcon);
-      projectLink.appendChild(projectTitle);
+      projectLink.appendChild(projectText);
       projectLink.appendChild(projectIconsDiv);
       projectsLinks.appendChild(projectLink);
     }
@@ -134,6 +144,7 @@ const dom = (() => {
     manipulateModal,
     validateModal,
     showProjects,
+    editProject,
   };
 })();
 
