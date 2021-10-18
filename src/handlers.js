@@ -1,6 +1,8 @@
 import dom from './dom';
 
 const handlers = (() => {
+  let projectIndex = 0;
+
   // RESIZE MENU DEPENDING ON WINDOW SIZE
   function resizeWindow() {
     window.addEventListener('resize', dom.responsiveMenu);
@@ -9,38 +11,41 @@ const handlers = (() => {
   function listenClicks() {
     document.addEventListener('click', (event) => {
       const { target } = event;
-      // SIDE MENU TOGGLE
+
+      // TOGGLE SIDE MENU
       if (target.classList.contains('toggle-menu') || target.classList.contains('burger-line')) {
         dom.toggleMenu();
-      // STYLE TASK LINK
-      } else if (target.classList.contains('task-link')
-                || target.classList.contains('task-icon')
-                || target.classList.contains('task-text')) {
-        dom.selectTask(target);
-      // STYLE PROJECT LINK
-      } else if (target.classList.contains('project-link')
-                || target.classList.contains('project-icon')
-                || target.classList.contains('project-text')) {
-        dom.selectProject(target);
+
+      // STYLE MENU LINK
+      } else if (target.classList.contains('nav-link')
+                || target.classList.contains('nav-link-icon')
+                || target.classList.contains('nav-link-text')) {
+        dom.selectMenuLink(target);
+
       // MODAL TO ADD PROJECT
       } else if (target.classList.contains('add-project')) {
         dom.manipulateModal('show', 'Add New Project', 'Add');
-        // MODAL TO EDIT PROJECT
+
+      // MODAL TO EDIT PROJECT
       } else if (target.classList.contains('edit-project')) {
+        projectIndex = target.getAttribute('data-index');
         dom.manipulateModal('show', 'Edit Your Project', 'Edit');
-        dom.editProject(target);
+        dom.editProject(projectIndex);
+
       // MODAL TO DELETE PROJECT
       } else if (target.classList.contains('delete-project')) {
         dom.manipulateModal('show', 'Delete Your Project', 'Delete');
-      // // VALIDATE MODAL
+
+      // VALIDATE MODAL
       } else if (target.classList.contains('confirm-modal')) {
         if (target.textContent === 'Add') {
           dom.validateModal('add');
         } else if (target.textContent === 'Edit') {
-          dom.validateModal('edit');
+          dom.validateModal('edit', projectIndex);
         } else if (target.textContent === 'Delete') {
           dom.validateModal('delete');
         }
+
       // CLOSE MODAL
       } else if (target.classList.contains('close')) {
         dom.manipulateModal('close');
