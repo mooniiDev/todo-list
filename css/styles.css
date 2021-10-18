@@ -123,7 +123,7 @@ button:focus {
   margin-bottom: 20px;
   padding: 12px 20px;
   background-color: var(--white);
-  font-size: 18px;
+  font-size: 17px;
   color: var(--dark-grey);
   text-decoration: none;
   border: 1px solid var(--light-grey);
@@ -190,7 +190,7 @@ button:focus {
   font-size: 18px;
   border-bottom: 1px solid var(--dark-grey);
 }
-.project-text {
+.nav-link-text {
   white-space: nowrap;
   max-width: 140px;
   overflow: hidden;
@@ -281,7 +281,7 @@ button:focus {
 .modal-content {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 25px 20px;
   background-color: var(--white);
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -302,7 +302,7 @@ button:focus {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 40px;
 }
 .cancel-modal {
   background-color: var(--white);
@@ -341,7 +341,7 @@ button:focus {
   -ms-grid-columns: min-content 10px min-content 10px min-content 10px min-content 10px min-content 10px min-content 10px min-content;
   grid-template-columns: repeat(8, min-content);
   grid-gap: 4px;
-  margin: 15px 0;
+  margin: 5px 0;
 }
 .project-icons input {
   position: absolute;
@@ -353,17 +353,19 @@ button:focus {
   width: 40px;
 }
 .radio-control {
+  display: inline-block;
+  width: 41px;
   padding: 5px 0;
   border: 1px solid var(--grey);
   border-radius: 5px;
   font-size: 25px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: 0.2s;
 }
 .radio-control:hover {
   border-color: var(--dark-aqua);
   color: var(--dark-aqua);
-  transition: 0.3s;
+  transition: 0.2s;
 }
 .project-icons input:focus + .radio-control,
 .radio-before input:checked + .radio-control {

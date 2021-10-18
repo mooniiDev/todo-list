@@ -15,34 +15,38 @@
 </head>
 <body id="body">
   <header id="header">
+
     <!-- MENU TOGGLE -->
     <div class="toggle-menu">
       <div class="burger-line"></div>
       <div class="burger-line"></div>
       <div class="burger-line"></div>
     </div>
+
     <!-- LOGO -->
     <p class="logo"><i class="fal fa-tasks padding-right"></i>ToDo</p>
   </header>
 
   <!-- SIDE MENU -->
   <nav id="sidebar-menu">
+
     <!-- TASKS -->
     <div class="nav-links">
-      <a class="nav-link selected-link task-link" href="#">
-        <i class="fal fa-calendar-alt task-icon padding-right"></i>
-        <p class="task-text">All</p>
+      <a class="nav-link selected-link" href="#">
+        <i class="fal fa-calendar-alt nav-link-icon padding-right"></i>
+        <p class="nav-link-text">All</p>
       </a>
-      <a href="#" class="nav-link task-link">
-        <i class="fal fa-calendar-day task-icon padding-right"></i><p class="task-text">Today</p>
+      <a href="#" class="nav-link">
+        <i class="fal fa-calendar-day nav-link-icon padding-right"></i><p class="nav-link-text">Today</p>
       </a>
-      <a href="#" class="nav-link task-link">
-        <i class="fal fa-calendar-week task-icon padding-right"></i><p class="task-text">Week</p>
+      <a href="#" class="nav-link">
+        <i class="fal fa-calendar-week nav-link-icon padding-right"></i><p class="nav-link-text">Week</p>
       </a>
-      <a href="#" class="nav-link task-link">
-        <i class="fal fa-calendar-star task-icon padding-right"></i><p class="task-text">Important</p>
+      <a href="#" class="nav-link">
+        <i class="fal fa-calendar-star nav-link-icon padding-right"></i><p class="nav-link-text">Important</p>
       </a>
     </div>
+
     <!-- PROJECTS -->
     <div id="nav-projects">
       <div class="nav-projects-title">
@@ -67,6 +71,7 @@
 
   <!-- MAIN CONTENT -->
   <main id="main">
+    <!-- Main Content goes here -->
   </main>
 
   <!-- MODAL -->
@@ -87,63 +92,67 @@
           </div>
           <div class="radio-form show">
             <p>Icon</p>
+
             <!-- RADIO BUTTONS -->
             <div class="project-icons">
               <label class="radio-before">
                 <span class="radio-input">
-                  <input type="radio" id="flower" name="projectIcon" value="fa-flower-daffodil" checked>
+                  <input type="radio" id="flower-daffodil" class="icon" name="projectIcon" value="fa-flower-daffodil" checked>
                   <span class="radio-control"><i class="fal fa-flower-daffodil fa-fw"></i></span>
                 </span>
               </label>
               <label class="radio-before">
                 <span class="radio-input">
-                  <input type="radio" id="laptop" name="projectIcon" value="fa-laptop-code">
-                  <span class="radio-control"><i class="fal fa-laptop-code fa-fw"></i></span>
+                  <input type="radio" id="book" class="icon" name="projectIcon" value="fa-book">
+                  <span class="radio-control"><i class="fal fa-book fa-fw"></i></span>
                 </span>
               </label>
               <label class="radio-before">
                 <span class="radio-input">
-                  <input type="radio" id="pencil-paintbrush" name="projectIcon" value="fa-pencil-paintbrush">
-                  <span class="radio-control"><i class="fal fa-pencil-paintbrush fa-fw"></i></span>
-                </span>
-              </label>
-              <label class="radio-before">
-                <span class="radio-input">
-                  <input type="radio" id="volleyball" name="projectIcon" value="fa-volleyball-ball">
-                  <span class="radio-control"><i class="fal fa-volleyball-ball fa-fw"></i></span>
-                </span>
-              </label>
-              <label class=" radio radio-before">
-                <span class="radio-input">
-                  <input type="radio" id="sack-dollar" name="projectIcon" value="fa-sack-dollar">
-                  <span class="radio-control"><i class="fal fa-sack-dollar fa-fw"></i></span>
-                </span>
-              </label>
-              <label class="radio radio-before">
-                <span class="radio-input">
-                  <input type="radio" id="pizza" name="projectIcon" value="fa-pizza-slice">
-                  <span class="radio-control"><i class="fal fa-pizza-slice fa-fw"></i></span>
-                </span>
-              </label>
-              <label class="radio-before">
-                <span class="radio-input">
-                  <input type="radio" id="tools" name="projectIcon" value="fa-tools">
+                  <input type="radio" id="tools" class="icon" name="projectIcon" value="fa-tools">
                   <span class="radio-control"><i class="fal fa-tools fa-fw"></i></span>
                 </span>
               </label>
               <label class="radio-before">
                 <span class="radio-input">
-                  <input type="radio" id="rv" name="projectIcon" value="fa-rv">
-                  <span class="radio-control"><i class="fal fa-rv fa-fw"></i></span>
+                  <input type="radio" id="volleyball-ball" class="icon" name="projectIcon" value="fa-volleyball-ball">
+                  <span class="radio-control"><i class="fal fa-volleyball-ball fa-fw"></i></span>
+                </span>
+              </label>
+              <label class=" radio radio-before">
+                <span class="radio-input">
+                  <input type="radio" id="sack-dollar" class="icon" name="projectIcon" value="fa-sack-dollar">
+                  <span class="radio-control"><i class="fal fa-sack-dollar fa-fw"></i></span>
+                </span>
+              </label>
+              <label class="radio radio-before">
+                <span class="radio-input">
+                  <input type="radio" id="pizza-slice" class="icon" name="projectIcon" value="fa-pizza-slice">
+                  <span class="radio-control"><i class="fal fa-pizza-slice fa-fw"></i></span>
+                </span>
+              </label>
+              <label class="radio-before">
+                <span class="radio-input">
+                  <input type="radio" id="backpack" class="icon" name="projectIcon" value="fa-backpack">
+                  <span class="radio-control"><i class="fal fa-backpack fa-fw"></i></span>
+                </span>
+              </label>
+              <label class="radio-before">
+                <span class="radio-input">
+                  <input type="radio" id="gift" class="icon" name="projectIcon" value="fa-gift">
+                  <span class="radio-control"><i class="fal fa-gift fa-fw"></i></span>
                 </span>
               </label>
             </div>
           </div>
         </form>
+
+        <!-- MODAL BUTTONS -->
         <div class="modal-options">
           <button type="button" class="cancel-modal close">Cancel</button>
           <button type="button" class="modal-task confirm-modal"></button>
         </div>
+
       </div>
     </div>
   </div>
