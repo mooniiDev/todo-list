@@ -22,10 +22,18 @@ const projects = (() => {
     dom.showProjects();
   }
 
+  function deleteProject(index) {
+    if (index > -1) {
+      projectsList.splice(index, 1);
+    }
+    dom.showProjects();
+  }
+
   return {
     projectsList,
     addProject,
     editProject,
+    deleteProject,
   };
 })();
 

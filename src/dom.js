@@ -5,8 +5,6 @@ const dom = (() => {
   const sidebarMenu = document.querySelector('#sidebar-menu');
   const mainContent = document.querySelector('#main');
   const modal = document.querySelector('#modal');
-  const modalTitle = document.querySelector('.modal-title');
-  const modalTask = document.querySelector('.modal-task');
   const form = document.querySelector('#form');
   const projectTitle = document.querySelector('#project-title');
   const projectTitleError = document.querySelector('.project-title-error');
@@ -62,7 +60,7 @@ const dom = (() => {
     // SHOW EDITABLE PROJECT TITLE
     projectTitle.value = projects.projectsList[index].title;
 
-    // CHECK EDITABLE PROJECT ICON
+    // SELECT EDITABLE PROJECT ICON
     for (let i = 0; i < allProjectIcons.length; i += 1) {
       if (allProjectIcons[i].value === projectIcon) {
         allProjectIcons[i].checked = true;
@@ -70,12 +68,25 @@ const dom = (() => {
     }
   }
 
-  function manipulateModal(state, title, task) {
+  function manipulateModal(state, title, task, index) {
+    const modalHeader = modal.querySelector('.modal-header');
+    const deletionText = modal.querySelector('.deletion-text');
+    const confirmButton = modal.querySelector('.confirm-modal');
+    const cancelButton = modal.querySelector('.cancel-modal');
+
+    modalHeader.classList.remove('deletion-modal-header');
     form.reset();
+    form.classList.remove('hide');
     projectTitleError.classList.remove('show');
     projectTitleError.classList.add('hide');
+    deletionText.classList.add('hide');
+    cancelButton.classList.remove('cancel-deletion');
+    confirmButton.classList.remove('confirm-deletion');
 
     if (state === 'show') {
+      const modalTitle = modal.querySelector('.modal-title');
+      const modalTask = modal.querySelector('.modal-task');
+
       modal.classList.remove('hide');
       modal.classList.add('show');
       modalTitle.textContent = title;
@@ -84,25 +95,39 @@ const dom = (() => {
       modal.classList.remove('show');
       modal.classList.add('hide');
     }
+
+    if (task === 'Delete') {
+      const deletionProjectTitle = modal.querySelector('.project-title');
+
+      modalHeader.classList.add('deletion-modal-header');
+      deletionText.classList.remove('hide');
+      deletionText.classList.add('show');
+      deletionProjectTitle.textContent = projects.projectsList[index].title;
+      form.classList.add('hide');
+      cancelButton.classList.add('cancel-deletion');
+      confirmButton.classList.add('confirm-deletion');
+    }
   }
 
   function validateModal(task, index) {
     const { projectIcon } = document.forms.form;
-    if (projectTitle.value === '') {
-      projectTitleError.classList.remove('hide');
-      projectTitleError.classList.add('show');
 
-    // ADD PROJECT TO ARRAY
-    } else if (task === 'add') {
-      projects.addProject(projectIcon.value, projectTitle.value);
+    if (task === 'add' || task === 'edit') {
+      if (projectTitle.value === '') {
+        projectTitleError.classList.remove('hide');
+        projectTitleError.classList.add('show');
 
-    // EDIT PROJECT FROM ARRAY
-    } else if (task === 'edit') {
-      projects.editProject(projectIcon.value, projectTitle.value, index);
+      // ADD PROJECT TO ARRAY
+      } else if (task === 'add') {
+        projects.addProject(projectIcon.value, projectTitle.value);
 
+      // EDIT PROJECT FROM ARRAY
+      } else if (task === 'edit') {
+        projects.editProject(projectIcon.value, projectTitle.value, index);
+      }
     // DELETE PROJECT FROM ARRAY
     } else if (task === 'delete') {
-      console.log('Delete your project from array.');
+      projects.deleteProject(index);
     }
   }
 
