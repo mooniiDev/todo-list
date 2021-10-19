@@ -8,6 +8,7 @@
   --dark-grey: #7D7D7D;
   --white: #FFFFFF;
   --red: #E67B7B;
+  --dark-red: #C46161;
 }
 
 /* GENERAL STYLES */
@@ -298,11 +299,18 @@ button:focus {
   border-color: var(--aqua);
   transition: 0.3s;
 }
+.project-title-error {
+  margin: -15px 0 20px 0;
+  font-size: 13px;
+  color: var(--red);
+}
 .modal-options {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--grey);
 }
 .cancel-modal {
   background-color: var(--white);
@@ -326,10 +334,23 @@ button:focus {
 .confirm-modal:hover {
   background-color: var(--dark-aqua);
 }
-.project-title-error {
-  margin: -15px 0 20px 0;
-  font-size: 13px;
-  color: var(--red);
+
+/* MODAL TO DELETE PROJECT */
+.deletion-modal-header {
+  background: linear-gradient(90deg, var(--dark-red) 0%, var(--red) 100%);
+}
+.project-title {
+  font-weight: 900;
+}
+.cancel-deletion:hover {
+  color: var(--dark-grey);
+  border: 1px solid var(--dark-grey);
+}
+.confirm-deletion {
+  background-color: var(--red);
+}
+.confirm-deletion:hover {
+  background-color: var(--dark-red);
 }
 
 /* PROJECTS MODAL RADIO BUTTONS - ICONS */
@@ -360,12 +381,12 @@ button:focus {
   border-radius: 5px;
   font-size: 25px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: 0.1s;
 }
 .radio-control:hover {
   border-color: var(--dark-aqua);
   color: var(--dark-aqua);
-  transition: 0.2s;
+  transition: 0.1s;
 }
 .project-icons input:focus + .radio-control,
 .radio-before input:checked + .radio-control {
