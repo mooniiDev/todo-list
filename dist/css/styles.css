@@ -175,6 +175,17 @@ button:focus {
 #main {
   transition: background-color 250ms;
 }
+.main-title-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main-title-icon {
+  font-size: 35px;
+}
+.main-title-text {
+  font-weight: 500;
+}
 
 /* FOOTER */
 #footer {

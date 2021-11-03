@@ -20,6 +20,7 @@ const handlers = (() => {
       } else if (target.classList.contains('select')) {
         index = target.getAttribute('data-index');
         dom.selectMenuLink(target);
+        dom.changeMainTitle(target, index);
 
       // MODAL TO ADD PROJECT
       } else if (target.classList.contains('add-project')) {
