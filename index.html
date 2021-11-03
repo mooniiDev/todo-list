@@ -24,39 +24,37 @@
     </div>
 
     <!-- LOGO -->
-    <p class="logo"><i class="fal fa-tasks padding-right"></i>ToDo</p>
+    <p class="logo"><i class="fal fa-check-double padding-right"></i>ToDo</p>
   </header>
 
   <!-- SIDE MENU -->
   <nav id="sidebar-menu">
 
-    <!-- TASKS -->
     <div class="nav-links">
-      <a class="nav-link selected-link" href="#">
-        <i class="fal fa-calendar-alt nav-link-icon padding-right"></i>
-        <p class="nav-link-text">All</p>
+      <a href="#" class="nav-link menu-link select selected-link" data-index="0">
+        <i class="fal fa-calendar-alt nav-link-icon menu-icon select padding-right" data-index="0" data-icon="fa-calendar-alt"></i><p class="nav-link-text menu-text select" data-index="0">All</p>
       </a>
-      <a href="#" class="nav-link">
-        <i class="fal fa-calendar-day nav-link-icon padding-right"></i><p class="nav-link-text">Today</p>
+      <a href="#" class="nav-link menu-link select" data-index="1">
+        <i class="fal fa-calendar-day nav-link-icon menu-icon select padding-right" data-index="1" data-icon="fa-calendar-day"></i><p class="nav-link-text menu-text select" data-index="1">Today</p>
       </a>
-      <a href="#" class="nav-link">
-        <i class="fal fa-calendar-week nav-link-icon padding-right"></i><p class="nav-link-text">Week</p>
+      <a href="#" class="nav-link menu-link select" data-index="2">
+        <i class="fal fa-calendar-week nav-link-icon menu-icon select padding-right" data-index="2" data-icon="fa-calendar-week"></i><p class="nav-link-text menu-text select" data-index="2">Week</p>
       </a>
-      <a href="#" class="nav-link">
-        <i class="fal fa-calendar-star nav-link-icon padding-right"></i><p class="nav-link-text">Important</p>
+      <a href="#" class="nav-link menu-link select" data-index="3">
+        <i class="fal fa-calendar-star nav-link-icon menu-icon select padding-right" data-index="3" data-icon="fa-calendar-star"></i><p class="nav-link-text menu-text select" data-index="3">Important</p>
       </a>
     </div>
 
     <!-- PROJECTS -->
     <div id="nav-projects">
       <div class="nav-projects-title">
-        <i class="fal fa-tasks-alt padding-right"></i><p>Projects</p>
-        <i class="fal fa-plus-circle add-project hover-icon float-right">
+        <p>Projects (<span class="projects-count"></span>)</p>
+        <i class="fal fa-plus-circle add-project hover-element tooltip-icon">
           <span class="add-project tooltip-text">Add New Project</span>
         </i>
       </div>
-      <div id="projects-links-div">
-        <!-- Projects List goes here -->
+      <div class="projects-links-div">
+        <!-- Projects list goes here -->
       </div>
     </div>
 
@@ -71,7 +69,7 @@
 
   <!-- MAIN CONTENT -->
   <main id="main">
-    <!-- Main Content goes here -->
+    <!-- Main content goes here -->
   </main>
 
   <!-- MODAL -->
