@@ -5,7 +5,7 @@
   --dark-aqua: #0E9AA1;
   --grey: #E6E6E6;
   --light-grey: #F7F7F7;
-  --dark-grey: #7D7D7D;
+  --dark-grey: #757575;
   --white: #FFFFFF;
   --red: #E67B7B;
   --dark-red: #C46161;
@@ -31,17 +31,15 @@ button:focus {
 .padding-right {
   padding-right: 5px;
 }
-.float-right {
-  float: right;
-}
+
 /* Visual styles */
-.show {
-  display: block;
-}
 .hide {
   display: none;
 }
-.hover-icon:hover {
+.add-z-index {
+  z-index: 1;
+}
+.hover-element:hover {
   cursor: pointer;
 }
 
@@ -100,8 +98,8 @@ button:focus {
 .contract-main {
   margin-left: 300px;
 }
-.darker-backround {
-  background-color: rgba(104, 104, 104, 0.85);
+.inactive-main {
+  opacity: 0.2;
 }
 
 /* NAVIGATION BAR */
@@ -116,7 +114,6 @@ button:focus {
 }
 #sidebar-menu p {
   display: inline-block;
-  padding-left: 4px;
   vertical-align: middle;
 }
 .nav-link {
@@ -130,9 +127,12 @@ button:focus {
   border: 1px solid var(--light-grey);
   border-radius: 5px;
   transition: .3s;
-
 }
-.float-right i:hover {
+.nav-link p {
+  padding-left: 3px;
+}
+.fa-edit:hover,
+.fa-trash-alt:hover {
   transform: scale(1.2);
 }
 .selected-link {
@@ -147,12 +147,60 @@ button:focus {
   transition: .3s;
 }
 
+/* PROJECTS */
+#nav-projects {
+  min-height: calc(100vh - 466px);
+}
+.nav-projects-title {
+  display: flex;
+  justify-content: space-between;
+  margin: 80px 0 20px 0;
+  padding: 0 20px 10px 20px;
+  width: 260px;
+  font-size: 18px;
+  border-bottom: 1px solid var(--dark-grey);
+}
+.project-text {
+  white-space: nowrap;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.project-link {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* MAIN CONTENT */
+#main {
+  transition: background-color 250ms;
+}
+
+/* FOOTER */
+#footer {
+  text-align: center;
+  border-top: 1px solid var(--dark-grey);
+}
+.crafted-by {
+  margin: 10px 0;
+  font-size: 15px;
+}
+.footer-link {
+  text-decoration: none;
+  color: var(--aqua);
+  transition: .3s;
+}
+.footer-link:hover {
+  color: var(--dark-aqua);
+  transition: .3s;
+}
+
 /* TOOLTIP */
-.hover-icon {
+.tooltip-icon {
   position: relative;
   display: inline-block;
 }
-.hover-icon .tooltip-text {
+.tooltip-icon .tooltip-text {
   visibility: hidden;
   position: absolute;
   bottom: 130%;
@@ -168,7 +216,7 @@ button:focus {
   opacity: 0;
   transition: opacity .3s;
 }
-.hover-icon .tooltip-text::after {
+.tooltip-icon .tooltip-text::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -178,64 +226,13 @@ button:focus {
   border-style: solid;
   border-color: var(--dark-grey) transparent transparent transparent;
 }
-.hover-icon:hover .tooltip-text {
+.tooltip-icon:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
 }
 
-/* PROJECTS */
-.nav-projects-title {
-  margin: 80px 0 20px 0;
-  padding: 0 20px 10px 20px;
-  width: 260px;
-  font-size: 18px;
-  border-bottom: 1px solid var(--dark-grey);
-}
-.nav-link-text {
-  white-space: nowrap;
-  max-width: 140px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
-/* MAIN CONTENT */
-#main {
-  height: calc(100vh - 60px);
-  transition: background-color 250ms;
-}
-.main-title {
-  margin: 0;
-  padding: 40px;
-  text-align: center;
-}
-
-/* FOOTER */
-#footer {
-  margin-top: 80px;
-  text-align: center;
-  border-top: 1px solid var(--dark-grey);
-}
-.crafted-by {
-  margin: 10px 0;
-  font-size: 15px;
-}
-.footer-link {
-  text-decoration: none;
-  color: var(--aqua);
-  transition: 0.3s;
-}
-.footer-link:hover {
-  color: var(--dark-aqua);
-  transition: 0.3s;
-}
-
-.burger-menu {
-  display: inline-block;
-  width: 25px;
-  cursor: pointer;
-}
-
-/* MODAL STYLE */
+/* MODAL STYLES */
 @keyframes fadeIn {
   from {opacity: 0}
   to {opacity: 1}
@@ -246,13 +243,15 @@ button:focus {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(104, 104, 104, 0.85);
+  background-color: rgba(255, 255, 255, 0.8);
+  transition: .2s;
+  margin: 0 auto;
+  z-index: 2;
 }
 .modal-card {
   position: relative;
-  margin: 20% auto;
+  margin: 15% auto;
   max-width: 400px;
-  border: 2px solid transparent;
   border-radius: 5px;
   box-shadow: rgba(46, 46, 46, 0.2) 0px 2px 8px 0px;
   animation: fadeIn .2s;
@@ -297,7 +296,7 @@ button:focus {
 }
 #form input:focus {
   border-color: var(--aqua);
-  transition: 0.3s;
+  transition: .3s;
 }
 .project-title-error {
   margin: -15px 0 20px 0;
@@ -317,7 +316,7 @@ button:focus {
   color: var(--dark-grey);
   border: 1px solid var(--grey);
   border-radius: 3px;
-  transition: 0.3s;
+  transition: .3s;
 }
 .cancel-modal:hover {
   color: var(--dark-aqua);
@@ -329,7 +328,7 @@ button:focus {
   color: var(--white);
   border: 1px solid transparent;
   border-radius: 3px;
-  transition: 0.3s;
+  transition: .3s;
 }
 .confirm-modal:hover {
   background-color: var(--dark-aqua);
@@ -381,12 +380,12 @@ button:focus {
   border-radius: 5px;
   font-size: 25px;
   cursor: pointer;
-  transition: 0.1s;
+  transition: .1s;
 }
 .radio-control:hover {
   border-color: var(--dark-aqua);
   color: var(--dark-aqua);
-  transition: 0.1s;
+  transition: .1s;
 }
 .project-icons input:focus + .radio-control,
 .radio-before input:checked + .radio-control {

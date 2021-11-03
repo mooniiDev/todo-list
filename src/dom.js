@@ -12,16 +12,22 @@ const dom = (() => {
   function responsiveMenu() {
     if (window.innerWidth <= 1000) {
       toggleMenuIcon.classList.remove('active');
+      // HIDE SIDEBAR AND MAKE IT OPAQUE
       sidebarMenu.classList.remove('show-sidebar');
       sidebarMenu.classList.add('hide-sidebar');
+      sidebarMenu.classList.add('add-z-index');
+      // EXPAND MAIN CONTENT
       mainContent.classList.remove('contract-main');
       mainContent.classList.add('expand-main');
     } else {
+      // SHOW SIDEBAR AND MAKE IT A BIT TRANSPARENT
       sidebarMenu.classList.remove('hide-sidebar');
       sidebarMenu.classList.add('show-sidebar');
+      sidebarMenu.classList.remove('add-z-index');
+      // CONTRACT MAIN CONTENT AND MAKE IT OPAQUE
       mainContent.classList.remove('expand-main');
       mainContent.classList.add('contract-main');
-      mainContent.classList.remove('darker-backround');
+      mainContent.classList.remove('inactive-main');
     }
   }
 
@@ -29,13 +35,15 @@ const dom = (() => {
     toggleMenuIcon.classList.toggle('active');
 
     if (sidebarMenu.classList.contains('hide-sidebar')) {
+      // SHOW SIDEBAR AND MAKE MAIN CONTENT A BIT TRANSPARENT
       sidebarMenu.classList.remove('hide-sidebar');
       sidebarMenu.classList.add('show-sidebar');
-      mainContent.classList.add('darker-backround');
+      mainContent.classList.add('inactive-main');
     } else if (sidebarMenu.classList.contains('show-sidebar')) {
+      // HIDE SIDEBAR AND MAKE MAIN CONTENT OPAQUE
       sidebarMenu.classList.remove('show-sidebar');
       sidebarMenu.classList.add('hide-sidebar');
-      mainContent.classList.remove('darker-backround');
+      mainContent.classList.remove('inactive-main');
     }
   }
 
@@ -46,25 +54,25 @@ const dom = (() => {
       link.classList.remove('selected-link');
     });
 
+    // ADD BACKGROUND COLOR ON CLICKED NAVIGATION BAR LINK
+    // IF CLICKED DIRECTLY ON MENU OR PROJECT LINK
     if (target.classList.contains('nav-link')) {
       target.classList.add('selected-link');
-    } else {
+
+    // IF CLICKED ON MENU LINK ICON OR TEXT
+    } else if (target.classList.contains('nav-link-icon')
+            || target.classList.contains('nav-link-text')) {
       target.parentElement.classList.add('selected-link');
-    }
-  }
 
-  function editProject(index) {
-    const projectIcon = projects.projectsList[index].icon;
-    const allProjectIcons = modal.querySelectorAll('.icon');
+    // IF CLICKED ON PROJECT ICON OR TEXT
+    } else if (target.classList.contains('project-icon')
+            || target.classList.contains('project-text')) {
+      target.parentElement.parentElement.classList.add('selected-link');
 
-    // SHOW EDITABLE PROJECT TITLE
-    projectTitle.value = projects.projectsList[index].title;
-
-    // SELECT EDITABLE PROJECT ICON
-    for (let i = 0; i < allProjectIcons.length; i += 1) {
-      if (allProjectIcons[i].value === projectIcon) {
-        allProjectIcons[i].checked = true;
-      }
+    // IF CLICKED ON PROJECT ELEMENTS DIVS
+    } else if (target.classList.contains('project-icon-and-text-div')
+            || target.classList.contains('project-default-icons-div')) {
+      target.parentElement.classList.add('selected-link');
     }
   }
 
@@ -77,7 +85,6 @@ const dom = (() => {
     modalHeader.classList.remove('deletion-modal-header');
     form.reset();
     form.classList.remove('hide');
-    projectTitleError.classList.remove('show');
     projectTitleError.classList.add('hide');
     deletionText.classList.add('hide');
     cancelButton.classList.remove('cancel-deletion');
@@ -88,11 +95,9 @@ const dom = (() => {
       const modalTask = modal.querySelector('.modal-task');
 
       modal.classList.remove('hide');
-      modal.classList.add('show');
       modalTitle.textContent = title;
       modalTask.textContent = task;
     } else if (state === 'close') {
-      modal.classList.remove('show');
       modal.classList.add('hide');
     }
 
@@ -101,7 +106,6 @@ const dom = (() => {
 
       modalHeader.classList.add('deletion-modal-header');
       deletionText.classList.remove('hide');
-      deletionText.classList.add('show');
       deletionProjectTitle.textContent = projects.projectsList[index].title;
       form.classList.add('hide');
       cancelButton.classList.add('cancel-deletion');
@@ -131,45 +135,75 @@ const dom = (() => {
     }
   }
 
+  // PROJECTS
+  function editProject(index) {
+    const projectIcon = projects.projectsList[index].icon;
+    const allProjectIcons = modal.querySelectorAll('.icon');
+
+    // SHOW EDITABLE PROJECT TITLE
+    projectTitle.value = projects.projectsList[index].title;
+
+    // SELECT EDITABLE PROJECT ICON
+    for (let i = 0; i < allProjectIcons.length; i += 1) {
+      if (allProjectIcons[i].value === projectIcon) {
+        allProjectIcons[i].checked = true;
+      }
+    }
+  }
+
   function showProjects() {
-    const projectsLinks = document.querySelector('#projects-links-div');
+    const projectsCount = document.querySelector('.projects-count');
+    const projectsLinks = document.querySelector('.projects-links-div');
+
+    // SHOW NUMBER OF PROJECTS
+    projectsCount.textContent = projects.projectsList.length;
     projectsLinks.textContent = '';
 
     for (let i = 0; i < projects.projectsList.length; i += 1) {
       const projectLink = document.createElement('a');
+      const projectIconAndTextDiv = document.createElement('div');
       const projectIcon = document.createElement('i');
       const projectText = document.createElement('p');
       const projectIconsDiv = document.createElement('div');
       const projectEditIcon = document.createElement('i');
       const projectTrashIcon = document.createElement('i');
 
+      // PROJECT ICON/TEXT AND DEFAULT ICONS DIVS
+      projectIconAndTextDiv.classList.add('project-icon-and-text-div', 'select');
+      projectIconAndTextDiv.setAttribute('data-index', i);
+      projectIconsDiv.classList.add('project-default-icons-div', 'select');
+      projectIconsDiv.setAttribute('data-index', i);
+
       // PROJECT LINK
-      projectLink.classList.add('nav-link');
+      projectLink.classList.add('nav-link', 'project-link', 'select');
       projectLink.setAttribute('href', '#');
       projectLink.setAttribute('data-index', i);
 
       // PROJECT ICON
-      projectIcon.classList.add('fal', 'nav-link-icon', projects.projectsList[i].icon, 'fa-fw', 'padding-right');
-      projectIconsDiv.classList.add('float-right');
+      projectIcon.classList.add('fal', 'project-icon', projects.projectsList[i].icon, 'fa-fw', 'select', 'padding-right');
+      projectIcon.setAttribute('data-index', i);
 
       // PROJECT TEXT
-      projectText.classList.add('nav-link-text');
+      projectText.classList.add('project-text', 'select');
       projectText.textContent = projects.projectsList[i].title;
+      projectText.setAttribute('data-index', i);
 
       // PROJECT DEFAULT ICONS
-      projectEditIcon.classList.add('fal', 'fa-edit', 'padding-right', 'edit-project', 'hover-icon');
+      projectEditIcon.classList.add('fal', 'fa-edit', 'padding-right', 'edit-project');
       projectEditIcon.setAttribute('data-index', i);
-      projectTrashIcon.classList.add('fal', 'fa-trash-alt', 'delete-project', 'hover-icon');
+      projectTrashIcon.classList.add('fal', 'fa-trash-alt', 'delete-project');
       projectTrashIcon.setAttribute('data-index', i);
 
       // APPENDS
       projectIconsDiv.appendChild(projectEditIcon);
       projectIconsDiv.appendChild(projectTrashIcon);
-      projectLink.appendChild(projectIcon);
-      projectLink.appendChild(projectText);
+      projectIconAndTextDiv.appendChild(projectIcon);
+      projectIconAndTextDiv.appendChild(projectText);
+      projectLink.appendChild(projectIconAndTextDiv);
       projectLink.appendChild(projectIconsDiv);
       projectsLinks.appendChild(projectLink);
     }
+
     manipulateModal('close');
   }
 

@@ -1,7 +1,7 @@
 import dom from './dom';
 
 const handlers = (() => {
-  let projectIndex = 0;
+  let index = 0;
 
   // RESIZE MENU DEPENDING ON WINDOW SIZE
   function resizeWindow() {
@@ -17,9 +17,8 @@ const handlers = (() => {
         dom.toggleMenu();
 
       // STYLE MENU LINK
-      } else if (target.classList.contains('nav-link')
-                || target.classList.contains('nav-link-icon')
-                || target.classList.contains('nav-link-text')) {
+      } else if (target.classList.contains('select')) {
+        index = target.getAttribute('data-index');
         dom.selectMenuLink(target);
 
       // MODAL TO ADD PROJECT
@@ -28,23 +27,25 @@ const handlers = (() => {
 
       // MODAL TO EDIT PROJECT
       } else if (target.classList.contains('edit-project')) {
-        projectIndex = target.getAttribute('data-index');
+        index = target.getAttribute('data-index');
+        dom.selectMenuLink(target);
         dom.manipulateModal('show', 'Edit Project', 'Edit');
-        dom.editProject(projectIndex);
+        dom.editProject(index);
 
       // MODAL TO DELETE PROJECT
       } else if (target.classList.contains('delete-project')) {
-        projectIndex = target.getAttribute('data-index');
-        dom.manipulateModal('show', 'Delete Project', 'Delete', projectIndex);
+        index = target.getAttribute('data-index');
+        dom.selectMenuLink(target);
+        dom.manipulateModal('show', 'Delete Project', 'Delete', index);
 
       // VALIDATE MODAL
       } else if (target.classList.contains('confirm-modal')) {
         if (target.textContent === 'Add') {
           dom.validateModal('add');
         } else if (target.textContent === 'Edit') {
-          dom.validateModal('edit', projectIndex);
+          dom.validateModal('edit', index);
         } else if (target.textContent === 'Delete') {
-          dom.validateModal('delete', projectIndex);
+          dom.validateModal('delete', index);
         }
 
       // CLOSE MODAL
