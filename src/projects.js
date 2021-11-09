@@ -1,13 +1,12 @@
 import dom from './dom';
 
 const projects = (() => {
-  const projectsList = [{ icon: 'fa-tools', title: 'Craft Example', tasks: ['Show Task Demo'] }];
+  const projectsList = [];
 
   class Project {
-    constructor(icon, title, tasks) {
+    constructor(icon, title) {
       this.icon = icon;
       this.title = title;
-      this.tasks = tasks;
     }
   }
 

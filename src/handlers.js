@@ -22,22 +22,26 @@ const handlers = (() => {
         dom.selectMenuLink(target);
         dom.changeMainTitle(target, index);
 
-      // MODAL TO ADD PROJECT
+      // MODAL TO ADD A PROJECT
       } else if (target.classList.contains('add-project')) {
         dom.manipulateModal('show', 'Add Project', 'Add');
 
-      // MODAL TO EDIT PROJECT
+      // MODAL TO EDIT A PROJECT
       } else if (target.classList.contains('edit-project')) {
         index = target.getAttribute('data-index');
         dom.selectMenuLink(target);
         dom.manipulateModal('show', 'Edit Project', 'Edit');
         dom.editProject(index);
 
-      // MODAL TO DELETE PROJECT
+      // MODAL TO DELETE A PROJECT
       } else if (target.classList.contains('delete-project')) {
         index = target.getAttribute('data-index');
         dom.selectMenuLink(target);
         dom.manipulateModal('show', 'Delete Project', 'Delete', index);
+
+      // MODAL TO ADD A TASK
+      } else if (target.classList.contains('add-task')) {
+        dom.manipulateModal('show', 'Add Task', 'Add');
 
       // VALIDATE MODAL
       } else if (target.classList.contains('confirm-modal')) {

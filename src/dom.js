@@ -6,8 +6,9 @@ const dom = (() => {
   const mainContent = document.querySelector('#main');
   const modal = document.querySelector('#modal');
   const form = document.querySelector('#form');
-  const projectTitle = document.querySelector('#project-title');
-  const projectTitleError = document.querySelector('.project-title-error');
+  const projectTitle = document.querySelector('#todo-title');
+  const projectTitleError = document.querySelector('.todo-title-error');
+  const deletionProjectTitle = modal.querySelector('.todo-title');
   const mainTitleIcon = document.querySelector('.main-title-icon');
   const mainTitleText = document.querySelector('.main-title-text');
 
@@ -80,6 +81,8 @@ const dom = (() => {
 
   function manipulateModal(state, title, task, index) {
     const modalHeader = modal.querySelector('.modal-header');
+    const modalTitle = modal.querySelector('.modal-title');
+    const modalTask = modal.querySelector('.modal-task');
     const deletionText = modal.querySelector('.deletion-text');
     const confirmButton = modal.querySelector('.confirm-modal');
     const cancelButton = modal.querySelector('.cancel-modal');
@@ -93,19 +96,27 @@ const dom = (() => {
     confirmButton.classList.remove('confirm-deletion');
 
     if (state === 'show') {
-      const modalTitle = modal.querySelector('.modal-title');
-      const modalTask = modal.querySelector('.modal-task');
+      const modalIconsDiv = modal.querySelector('.radio-form');
+      const modalTasksDiv = modal.querySelector('.modal-tasks-div');
 
       modal.classList.remove('hide');
       modalTitle.textContent = title;
       modalTask.textContent = task;
+      modalIconsDiv.classList.remove('hide');
+      modalIconsDiv.classList.add('show');
+      modalTasksDiv.classList.add('hide');
+
+      // IF MODAL IS FOR ADDING A TASK
+      if (title === 'Add Task') {
+        modalIconsDiv.classList.remove('show');
+        modalIconsDiv.classList.add('hide');
+        modalTasksDiv.classList.remove('hide');
+      }
     } else if (state === 'close') {
       modal.classList.add('hide');
     }
 
     if (task === 'Delete') {
-      const deletionProjectTitle = modal.querySelector('.project-title');
-
       modalHeader.classList.add('deletion-modal-header');
       deletionText.classList.remove('hide');
       deletionProjectTitle.textContent = projects.projectsList[index].title;
@@ -171,22 +182,22 @@ const dom = (() => {
       const projectTrashIcon = document.createElement('i');
 
       // PROJECT ICON/TEXT AND DEFAULT ICONS DIVS
-      projectIconAndTextDiv.classList.add('project-icon-and-text-div', 'select');
+      projectIconAndTextDiv.classList.add('project-icon-and-text-div', 'project', 'select');
       projectIconAndTextDiv.setAttribute('data-index', i);
-      projectIconsDiv.classList.add('project-default-icons-div', 'select');
+      projectIconsDiv.classList.add('project-default-icons-div', 'project', 'select');
       projectIconsDiv.setAttribute('data-index', i);
 
       // PROJECT LINK
-      projectLink.classList.add('nav-link', 'project-link', 'select');
+      projectLink.classList.add('nav-link', 'project-link', 'project', 'select');
       projectLink.setAttribute('href', '#');
       projectLink.setAttribute('data-index', i);
 
       // PROJECT ICON
-      projectIcon.classList.add('fal', 'project-icon', projects.projectsList[i].icon, 'fa-fw', 'select', 'padding-right');
+      projectIcon.classList.add('fal', 'project-icon', projects.projectsList[i].icon, 'fa-fw', 'project', 'select', 'padding-right');
       projectIcon.setAttribute('data-index', i);
 
       // PROJECT TEXT
-      projectText.classList.add('project-text', 'select');
+      projectText.classList.add('project-text', 'project', 'select');
       projectText.textContent = projects.projectsList[i].title;
       projectText.setAttribute('data-index', i);
 
@@ -209,6 +220,7 @@ const dom = (() => {
     manipulateModal('close');
   }
 
+  // MAIN CONTENT
   function showMainTitle(index) {
     const allMenuIcons = document.querySelectorAll('.menu-icon');
     const menuIcon = allMenuIcons[index].getAttribute('data-icon');
@@ -220,8 +232,7 @@ const dom = (() => {
 
   function changeMainTitle(target, index) {
     mainTitleIcon.className = '';
-
-    // TITLE OF TASKS FROM MENU
+    // TITLE OF TASKS FROM THE MENU
     if (target.classList.contains('menu-link')
      || target.classList.contains('menu-icon')
      || target.classList.contains('menu-text')) {
