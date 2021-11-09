@@ -358,7 +358,7 @@ select:focus {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid var(--grey);
 }
