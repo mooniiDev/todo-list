@@ -1,4 +1,5 @@
 import projects from './projects';
+import tasks from './tasks';
 
 const dom = (() => {
   const toggleMenuIcon = document.querySelector('.toggle-menu');
@@ -6,11 +7,12 @@ const dom = (() => {
   const mainContent = document.querySelector('#main');
   const modal = document.querySelector('#modal');
   const form = document.querySelector('#form');
-  const projectTitle = document.querySelector('#todo-title');
-  const projectTitleError = document.querySelector('.todo-title-error');
-  const deletionProjectTitle = modal.querySelector('.todo-title');
+  const modalTitle = document.querySelector('#modal-title');
+  const modalTitleError = document.querySelector('.modal-title-error');
+  const deletionModalTitle = modal.querySelector('.modal-title');
   const mainTitleIcon = document.querySelector('.main-title-icon');
   const mainTitleText = document.querySelector('.main-title-text');
+  const tasksCount = document.querySelector('.tasks-count');
 
   function responsiveMenu() {
     if (window.innerWidth <= 1000) {
@@ -54,7 +56,7 @@ const dom = (() => {
     }
   }
 
-  function selectMenuLink(target) {
+  function selectMenuLink(target, index) {
     const allMenuLinks = document.querySelectorAll('.link');
     const addTaskButton = document.querySelector('.add-task');
 
@@ -75,8 +77,11 @@ const dom = (() => {
 
       // IF CLICKED SOMEWHERE ON PROJECT LINK
     } else if (target.classList.contains('project')) {
-      // SHOW BUTTON TO ADD A TASK
+      // SHOW BUTTON TO ADD A TASK TO SELECTED PROJECT
       addTaskButton.classList.remove('hide');
+
+      // SHOW TASKS COUNT DEPENDING ON SELECTED PROJECT
+      tasksCount.textContent = projects.projectsList[index].tasks.length;
 
       // IF CLICKED DIRECTLY ON PROJECT LINK
       if (target.classList.contains('project-link')) {
@@ -97,7 +102,7 @@ const dom = (() => {
 
   function manipulateModal(state, title, task, index) {
     const modalHeader = modal.querySelector('.modal-header');
-    const modalTitle = modal.querySelector('.modal-title');
+    const modalMainTitle = modal.querySelector('.modal-main-title');
     const modalTask = modal.querySelector('.modal-task');
     const deletionText = modal.querySelector('.deletion-text');
     const confirmButton = modal.querySelector('.confirm-modal');
@@ -106,7 +111,7 @@ const dom = (() => {
     modalHeader.classList.remove('deletion-modal-header');
     form.reset();
     form.classList.remove('hide');
-    projectTitleError.classList.add('hide');
+    modalTitleError.classList.add('hide');
     deletionText.classList.add('hide');
     cancelButton.classList.remove('cancel-deletion');
     confirmButton.classList.remove('confirm-deletion');
@@ -116,7 +121,7 @@ const dom = (() => {
       const modalTasksDiv = modal.querySelector('.modal-tasks-div');
 
       modal.classList.remove('hide');
-      modalTitle.textContent = title;
+      modalMainTitle.textContent = title;
       modalTask.textContent = task;
       modalIconsDiv.classList.remove('hide');
       modalIconsDiv.classList.add('show');
@@ -135,7 +140,7 @@ const dom = (() => {
     if (task === 'Delete') {
       modalHeader.classList.add('deletion-modal-header');
       deletionText.classList.remove('hide');
-      deletionProjectTitle.textContent = projects.projectsList[index].title;
+      deletionModalTitle.textContent = projects.projectsList[index].title;
       form.classList.add('hide');
       cancelButton.classList.add('cancel-deletion');
       confirmButton.classList.add('confirm-deletion');
@@ -147,17 +152,23 @@ const dom = (() => {
     const projectIconsDiv = modal.querySelector('.radio-form');
 
     if (task === 'add' || task === 'edit') {
-      if (projectTitle.value === '') {
-        projectTitleError.classList.remove('hide');
-        projectTitleError.classList.add('show');
+      if (modalTitle.value === '') {
+        modalTitleError.classList.remove('hide');
+        modalTitleError.classList.add('show');
 
         // ADD A PROJECT TO ARRAY
       } else if (task === 'add' && projectIconsDiv.classList.contains('show')) {
-        projects.addProject(projectIcon.value, projectTitle.value);
+        projects.addProject(projectIcon.value, modalTitle.value);
 
         // EDIT A PROJECT FROM ARRAY
       } else if (task === 'edit') {
-        projects.editProject(projectIcon.value, projectTitle.value, index);
+        projects.editProject(projectIcon.value, modalTitle.value, index);
+
+        // ADD A TASK TO ARRAY
+      } else if (task === 'add' && projectIconsDiv.classList.contains('hide')) {
+        const selectedLink = document.querySelector('.selected-link');
+        const selectedProject = selectedLink.getAttribute('data-index');
+        tasks.addTask(selectedProject, modalTitle.value);
       }
 
       // DELETE A PROJECT FROM ARRAY
@@ -172,7 +183,7 @@ const dom = (() => {
     const allProjectIcons = modal.querySelectorAll('.icon');
 
     // SHOW EDITABLE PROJECT TITLE
-    projectTitle.value = projects.projectsList[index].title;
+    modalTitle.value = projects.projectsList[index].title;
 
     // SELECT EDITABLE PROJECT ICON
     for (let i = 0; i < allProjectIcons.length; i += 1) {
@@ -270,6 +281,23 @@ const dom = (() => {
     }
   }
 
+  function showTasks(index, title) {
+    const tasksList = document.querySelector('.todo-list');
+    const todo = document.createElement('div');
+
+    // SHOW TASKS COUNT
+    tasksCount.textContent = projects.projectsList[index].tasks.length;
+
+    // TASK
+    todo.classList.add('todo', 'hover-element');
+    todo.textContent = title;
+
+    // APPENDS
+    tasksList.appendChild(todo);
+
+    manipulateModal('close');
+  }
+
   return {
     responsiveMenu,
     toggleMenu,
@@ -280,6 +308,7 @@ const dom = (() => {
     showProjects,
     showMainTitle,
     changeMainTitle,
+    showTasks,
   };
 })();
 

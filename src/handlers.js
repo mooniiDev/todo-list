@@ -19,7 +19,7 @@ const handlers = (() => {
         // STYLE MENU LINK
       } else if (target.classList.contains('select')) {
         index = target.getAttribute('data-index');
-        dom.selectMenuLink(target);
+        dom.selectMenuLink(target, index);
         dom.changeMainTitle(target, index);
 
         // MODAL TO ADD A PROJECT

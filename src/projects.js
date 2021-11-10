@@ -7,6 +7,7 @@ const projects = (() => {
     constructor(icon, title) {
       this.icon = icon;
       this.title = title;
+      this.tasks = [];
     }
   }
 

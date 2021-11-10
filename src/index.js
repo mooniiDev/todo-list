@@ -1,10 +1,13 @@
 import dom from './dom';
 import handlers from './handlers';
 import projects from './projects';
+import tasks from './tasks';
 
-// ADD AND SHOW DEFAULT PROJECT (EXAMPLE)
+// ADD DEFAULT PROJECT (EXAMPLE)
 projects.addProject('fa-tools', 'Craft Example');
-dom.showProjects();
+
+// ADD DEFAULT TASK (EXAMPLE)
+tasks.addTask(0, 'Show Task Demo');
 
 // SHOW DEFAULT CONTENT
 dom.showMainTitle(0);
