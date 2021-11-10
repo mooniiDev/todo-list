@@ -102,23 +102,27 @@
     <div class="modal-card">
       <div class="modal-header">
         <h2>
-          <span class="modal-title"></span>
+          <span class="modal-main-title"></span>
         </h2>
         <i class="fal fa-times close-modal close"></i>
       </div>
       <div class="modal-content">
+
+        <!-- DELETION CONTENT -->
         <p class="deletion-text hide">Are you sure?<br><br>
-        Project 《 <span class="todo-title"></span> 》 will be gone forever!</p>
+        Project 《 <span class="modal-title"></span> 》 will be gone forever!</p>
+
         <form id="form" name="form" method="POST">
+          <!-- MODAL TITLE INPUT -->
           <div>
-            <label id="todo-title-label" for="todo-title">Title<span class="title-star">*</span></label>
-            <input type="text" id="todo-title" name="todo-title" autocomplete="off">
-            <p class="todo-title-error hide">Please fill out this field.</p>
+            <label id="modal-title-label" for="modal-title">Title<span class="title-star">*</span></label>
+            <input type="text" id="modal-title" name="modal-title" autocomplete="off">
+            <p class="modal-title-error hide">Please fill out this field.</p>
           </div>
+
+          <!-- RADIO BUTTONS -->
           <div class="radio-form show">
             <p>Icon</p>
-
-            <!-- RADIO BUTTONS -->
             <div class="project-icons">
               <label class="radio-before">
                 <span class="radio-input">
