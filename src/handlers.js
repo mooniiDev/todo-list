@@ -16,34 +16,34 @@ const handlers = (() => {
       if (target.classList.contains('toggle-menu') || target.classList.contains('burger-line')) {
         dom.toggleMenu();
 
-      // STYLE MENU LINK
+        // STYLE MENU LINK
       } else if (target.classList.contains('select')) {
         index = target.getAttribute('data-index');
         dom.selectMenuLink(target);
         dom.changeMainTitle(target, index);
 
-      // MODAL TO ADD A PROJECT
+        // MODAL TO ADD A PROJECT
       } else if (target.classList.contains('add-project')) {
         dom.manipulateModal('show', 'Add Project', 'Add');
 
-      // MODAL TO EDIT A PROJECT
+        // MODAL TO EDIT A PROJECT
       } else if (target.classList.contains('edit-project')) {
         index = target.getAttribute('data-index');
         dom.selectMenuLink(target);
         dom.manipulateModal('show', 'Edit Project', 'Edit');
         dom.editProject(index);
 
-      // MODAL TO DELETE A PROJECT
+        // MODAL TO DELETE A PROJECT
       } else if (target.classList.contains('delete-project')) {
         index = target.getAttribute('data-index');
         dom.selectMenuLink(target);
         dom.manipulateModal('show', 'Delete Project', 'Delete', index);
 
-      // MODAL TO ADD A TASK
+        // MODAL TO ADD A TASK
       } else if (target.classList.contains('add-task')) {
         dom.manipulateModal('show', 'Add Task', 'Add');
 
-      // VALIDATE MODAL
+        // VALIDATE MODAL
       } else if (target.classList.contains('confirm-modal')) {
         if (target.textContent === 'Add') {
           dom.validateModal('add');
@@ -53,7 +53,7 @@ const handlers = (() => {
           dom.validateModal('delete', index);
         }
 
-      // CLOSE MODAL
+        // CLOSE MODAL
       } else if (target.classList.contains('close')) {
         dom.manipulateModal('close');
       }

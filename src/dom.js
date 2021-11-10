@@ -15,10 +15,12 @@ const dom = (() => {
   function responsiveMenu() {
     if (window.innerWidth <= 1000) {
       toggleMenuIcon.classList.remove('active');
+
       // HIDE SIDEBAR AND MAKE IT OPAQUE
       sidebarMenu.classList.remove('show-sidebar');
       sidebarMenu.classList.add('hide-sidebar');
       sidebarMenu.classList.add('add-z-index');
+
       // EXPAND MAIN CONTENT
       mainContent.classList.remove('contract-main');
       mainContent.classList.add('expand-main');
@@ -27,6 +29,7 @@ const dom = (() => {
       sidebarMenu.classList.remove('hide-sidebar');
       sidebarMenu.classList.add('show-sidebar');
       sidebarMenu.classList.remove('add-z-index');
+
       // CONTRACT MAIN CONTENT AND MAKE IT OPAQUE
       mainContent.classList.remove('expand-main');
       mainContent.classList.add('contract-main');
@@ -37,13 +40,14 @@ const dom = (() => {
   function toggleMenu() {
     toggleMenuIcon.classList.toggle('active');
 
+    // SHOW SIDEBAR AND MAKE MAIN CONTENT A BIT TRANSPARENT
     if (sidebarMenu.classList.contains('hide-sidebar')) {
-      // SHOW SIDEBAR AND MAKE MAIN CONTENT A BIT TRANSPARENT
       sidebarMenu.classList.remove('hide-sidebar');
       sidebarMenu.classList.add('show-sidebar');
       mainContent.classList.add('inactive-main');
-    } else if (sidebarMenu.classList.contains('show-sidebar')) {
+
       // HIDE SIDEBAR AND MAKE MAIN CONTENT OPAQUE
+    } else if (sidebarMenu.classList.contains('show-sidebar')) {
       sidebarMenu.classList.remove('show-sidebar');
       sidebarMenu.classList.add('hide-sidebar');
       mainContent.classList.remove('inactive-main');
@@ -51,31 +55,43 @@ const dom = (() => {
   }
 
   function selectMenuLink(target) {
-    const allMenuLinks = document.querySelectorAll('.nav-link');
+    const allMenuLinks = document.querySelectorAll('.link');
+    const addTaskButton = document.querySelector('.add-task');
+
+    addTaskButton.classList.add('hide'); // By default 'Add Task' button is hidden
 
     allMenuLinks.forEach((link) => {
       link.classList.remove('selected-link');
     });
 
-    // ADD BACKGROUND COLOR ON CLICKED NAVIGATION BAR LINK
-    // IF CLICKED DIRECTLY ON MENU OR PROJECT LINK
-    if (target.classList.contains('nav-link')) {
+    // IF CLICKED ON MENU LINK
+    if (target.classList.contains('menu-link')) {
       target.classList.add('selected-link');
 
-    // IF CLICKED ON MENU LINK ICON OR TEXT
-    } else if (target.classList.contains('nav-link-icon')
-            || target.classList.contains('nav-link-text')) {
+      // IF CLICKED ON MENU LINK ICON OR TEXT
+    } else if (target.classList.contains('menu-link-icon')
+            || target.classList.contains('menu-link-text')) {
       target.parentElement.classList.add('selected-link');
 
-    // IF CLICKED ON PROJECT ICON OR TEXT
-    } else if (target.classList.contains('project-icon')
-            || target.classList.contains('project-text')) {
-      target.parentElement.parentElement.classList.add('selected-link');
+      // IF CLICKED SOMEWHERE ON PROJECT LINK
+    } else if (target.classList.contains('project')) {
+      // SHOW BUTTON TO ADD A TASK
+      addTaskButton.classList.remove('hide');
 
-    // IF CLICKED ON PROJECT ELEMENTS DIVS
-    } else if (target.classList.contains('project-icon-and-text-div')
-            || target.classList.contains('project-default-icons-div')) {
-      target.parentElement.classList.add('selected-link');
+      // IF CLICKED DIRECTLY ON PROJECT LINK
+      if (target.classList.contains('project-link')) {
+        target.classList.add('selected-link');
+
+        // IF CLICKED ON PROJECT ICON OR TEXT
+      } else if (target.classList.contains('project-icon')
+              || target.classList.contains('project-text')) {
+        target.parentElement.parentElement.classList.add('selected-link');
+
+        // IF CLICKED ON PROJECT ELEMENTS DIVS
+      } else if (target.classList.contains('project-icon-and-text-div')
+              || target.classList.contains('project-default-icons-div')) {
+        target.parentElement.classList.add('selected-link');
+      }
     }
   }
 
@@ -128,21 +144,23 @@ const dom = (() => {
 
   function validateModal(task, index) {
     const { projectIcon } = document.forms.form;
+    const projectIconsDiv = modal.querySelector('.radio-form');
 
     if (task === 'add' || task === 'edit') {
       if (projectTitle.value === '') {
         projectTitleError.classList.remove('hide');
         projectTitleError.classList.add('show');
 
-      // ADD PROJECT TO ARRAY
-      } else if (task === 'add') {
+        // ADD A PROJECT TO ARRAY
+      } else if (task === 'add' && projectIconsDiv.classList.contains('show')) {
         projects.addProject(projectIcon.value, projectTitle.value);
 
-      // EDIT PROJECT FROM ARRAY
+        // EDIT A PROJECT FROM ARRAY
       } else if (task === 'edit') {
         projects.editProject(projectIcon.value, projectTitle.value, index);
       }
-    // DELETE PROJECT FROM ARRAY
+
+      // DELETE A PROJECT FROM ARRAY
     } else if (task === 'delete') {
       projects.deleteProject(index);
     }
@@ -188,7 +206,7 @@ const dom = (() => {
       projectIconsDiv.setAttribute('data-index', i);
 
       // PROJECT LINK
-      projectLink.classList.add('nav-link', 'project-link', 'project', 'select');
+      projectLink.classList.add('link', 'project-link', 'project', 'select');
       projectLink.setAttribute('href', '#');
       projectLink.setAttribute('data-index', i);
 
@@ -222,9 +240,9 @@ const dom = (() => {
 
   // MAIN CONTENT
   function showMainTitle(index) {
-    const allMenuIcons = document.querySelectorAll('.menu-icon');
+    const allMenuIcons = document.querySelectorAll('.menu-link-icon');
     const menuIcon = allMenuIcons[index].getAttribute('data-icon');
-    const menuTexts = document.querySelectorAll('.menu-text');
+    const menuTexts = document.querySelectorAll('.menu-link-text');
 
     mainTitleIcon.classList.add('fal', menuIcon, 'main-title-icon', 'fa-fw', 'padding-right');
     mainTitleText.textContent = menuTexts[index].textContent;
@@ -232,10 +250,11 @@ const dom = (() => {
 
   function changeMainTitle(target, index) {
     mainTitleIcon.className = '';
+
     // TITLE OF TASKS FROM THE MENU
     if (target.classList.contains('menu-link')
-     || target.classList.contains('menu-icon')
-     || target.classList.contains('menu-text')) {
+     || target.classList.contains('menu-link-icon')
+     || target.classList.contains('menu-link-text')) {
       showMainTitle(index);
 
       // TITLE OF TASKS FROM PROJECTS
