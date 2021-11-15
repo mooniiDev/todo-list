@@ -7,7 +7,7 @@ import tasks from './tasks';
 projects.addProject('fa-tools', 'Craft Example');
 
 // ADD DEFAULT TASK (EXAMPLE)
-tasks.addTask(0, 'Show Task Demo');
+tasks.addTask(0, 'Show Task Demo', 'Short description of my task.', '2011-11-11', 'low');
 
 // SHOW DEFAULT CONTENT
 dom.showMainTitle(0);

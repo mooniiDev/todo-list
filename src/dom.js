@@ -148,32 +148,82 @@ const dom = (() => {
   }
 
   function validateModal(task, index) {
-    const { projectIcon } = document.forms.form;
+    const { projectFormIcon } = document.forms.form;
+    const projectDomIcon = projectFormIcon.value;
     const projectIconsDiv = modal.querySelector('.radio-form');
+    const modalTitleText = modalTitle.value;
 
     if (task === 'add' || task === 'edit') {
-      if (modalTitle.value === '') {
+      if (modalTitleText === '') {
         modalTitleError.classList.remove('hide');
         modalTitleError.classList.add('show');
 
         // ADD A PROJECT TO ARRAY
       } else if (task === 'add' && projectIconsDiv.classList.contains('show')) {
-        projects.addProject(projectIcon.value, modalTitle.value);
+        projects.addProject(projectDomIcon, modalTitleText);
 
         // EDIT A PROJECT FROM ARRAY
       } else if (task === 'edit') {
-        projects.editProject(projectIcon.value, modalTitle.value, index);
+        projects.editProject(projectDomIcon, modalTitleText, index);
 
         // ADD A TASK TO ARRAY
       } else if (task === 'add' && projectIconsDiv.classList.contains('hide')) {
         const selectedLink = document.querySelector('.selected-link');
         const selectedProject = selectedLink.getAttribute('data-index');
-        tasks.addTask(selectedProject, modalTitle.value);
+        const taskDescription = document.querySelector('.task-description').value;
+        const taskDueDate = document.querySelector('#dueDate').value;
+        const taskPrioritySelection = document.querySelector('.task-priority');
+        let taskPriority = '';
+
+        // CHECK TASK PRIORITY
+        if (taskPrioritySelection.value === 'low') {
+          taskPriority = 'low';
+        } else if (taskPrioritySelection.value === 'medium') {
+          taskPriority = 'medium';
+        } else if (taskPrioritySelection.value === 'high') {
+          taskPriority = 'high';
+        } else {
+          taskPriority = '';
+        }
+
+        tasks.addTask(selectedProject, modalTitleText, taskDescription, taskDueDate, taskPriority);
       }
 
       // DELETE A PROJECT FROM ARRAY
     } else if (task === 'delete') {
       projects.deleteProject(index);
+    }
+  }
+
+  // MAIN CONTENT
+  function showMainTitle(index) {
+    const allMenuIcons = document.querySelectorAll('.menu-link-icon');
+    const menuIcon = allMenuIcons[index].getAttribute('data-icon');
+    const menuTexts = document.querySelectorAll('.menu-link-text');
+
+    mainTitleIcon.classList.add('fal', menuIcon, 'main-title-icon', 'fa-fw', 'padding-right');
+    mainTitleText.textContent = menuTexts[index].textContent;
+  }
+
+  function changeMainTitle(target, index) {
+    mainTitleIcon.className = '';
+
+    // TITLE OF TASKS FROM THE MENU
+    if (target.classList.contains('menu-link')
+     || target.classList.contains('menu-link-icon')
+     || target.classList.contains('menu-link-text')) {
+      showMainTitle(index);
+
+      // TITLE OF TASKS FROM PROJECTS
+    } else if (target.classList.contains('project-link')
+            || target.classList.contains('project-icon')
+            || target.classList.contains('project-text')
+            || target.classList.contains('project-icon-and-text-div')
+            || target.classList.contains('project-default-icons-div')) {
+      const projectIcon = projects.projectsList[index].icon;
+
+      mainTitleIcon.classList.add('fal', projectIcon, 'main-title-icon', 'fa-fw', 'padding-right');
+      mainTitleText.textContent = projects.projectsList[index].title;
     }
   }
 
@@ -231,9 +281,9 @@ const dom = (() => {
       projectText.setAttribute('data-index', i);
 
       // PROJECT DEFAULT ICONS
-      projectEditIcon.classList.add('fal', 'fa-edit', 'padding-right', 'edit-project');
+      projectEditIcon.classList.add('fal', 'fa-edit', 'edit-project', 'scale-element', 'padding-right');
       projectEditIcon.setAttribute('data-index', i);
-      projectTrashIcon.classList.add('fal', 'fa-trash-alt', 'delete-project');
+      projectTrashIcon.classList.add('fal', 'fa-trash-alt', 'scale-element', 'delete-project');
       projectTrashIcon.setAttribute('data-index', i);
 
       // APPENDS
@@ -249,51 +299,67 @@ const dom = (() => {
     manipulateModal('close');
   }
 
-  // MAIN CONTENT
-  function showMainTitle(index) {
-    const allMenuIcons = document.querySelectorAll('.menu-link-icon');
-    const menuIcon = allMenuIcons[index].getAttribute('data-icon');
-    const menuTexts = document.querySelectorAll('.menu-link-text');
+  // TASKS
+  function showTasks(index, title, date, priority) {
+    const tasksList = document.querySelector('.tasks-list');
+    const taskDiv = document.createElement('div');
+    const taskIconAndTextDiv = document.createElement('div');
+    const taskIcon = document.createElement('i');
+    const taskText = document.createElement('p');
+    const taskInfo = document.createElement('div');
+    const taskDueDate = document.createElement('p');
+    const taskEditIcon = document.createElement('i');
+    const taskTrashIcon = document.createElement('i');
+    const taskInfoIcon = document.createElement('i');
 
-    mainTitleIcon.classList.add('fal', menuIcon, 'main-title-icon', 'fa-fw', 'padding-right');
-    mainTitleText.textContent = menuTexts[index].textContent;
-  }
-
-  function changeMainTitle(target, index) {
-    mainTitleIcon.className = '';
-
-    // TITLE OF TASKS FROM THE MENU
-    if (target.classList.contains('menu-link')
-     || target.classList.contains('menu-link-icon')
-     || target.classList.contains('menu-link-text')) {
-      showMainTitle(index);
-
-      // TITLE OF TASKS FROM PROJECTS
-    } else if (target.classList.contains('project-link')
-            || target.classList.contains('project-icon')
-            || target.classList.contains('project-text')
-            || target.classList.contains('project-icon-and-text-div')
-            || target.classList.contains('project-default-icons-div')) {
-      const projectIcon = projects.projectsList[index].icon;
-
-      mainTitleIcon.classList.add('fal', projectIcon, 'main-title-icon', 'fa-fw', 'padding-right');
-      mainTitleText.textContent = projects.projectsList[index].title;
-    }
-  }
-
-  function showTasks(index, title) {
-    const tasksList = document.querySelector('.todo-list');
-    const todo = document.createElement('div');
-
-    // SHOW TASKS COUNT
+    // SHOW NUMBER OF TASKS
     tasksCount.textContent = projects.projectsList[index].tasks.length;
 
-    // TASK
-    todo.classList.add('todo', 'hover-element');
-    todo.textContent = title;
+    // TASK DIV
+    taskDiv.classList.add('task-div', 'hover-element');
+
+    // TASK ICON, TEXT AND ITS DIV
+    taskIconAndTextDiv.classList.add('flex');
+
+    if (priority === 'low') {
+      taskIcon.classList.add('fal', 'fa-circle', 'low-priority', 'padding-right');
+    } else if (priority === 'medium') {
+      taskIcon.classList.add('fal', 'fa-circle', 'mid-priority', 'padding-right');
+    } else if (priority === 'high') {
+      taskIcon.classList.add('fal', 'fa-circle', 'high-priority', 'padding-right');
+    } else {
+      taskIcon.classList.add('fal', 'fa-circle', 'padding-right');
+    }
+
+    taskText.classList.add('task-text');
+    taskText.textContent = title;
+
+    // TASK INFO DIV
+    taskInfo.classList.add('flex');
+
+    // TASKS DUE DATE
+    taskDueDate.classList.add('due-date', 'padding-right');
+    if (date !== undefined) {
+      taskDueDate.textContent = date;
+    } else {
+      taskDueDate.textContent = '';
+    }
+
+    // TASK DEFAULT ICONS
+    taskEditIcon.classList.add('fal', 'fa-edit', 'scale-element', 'padding-right');
+    taskTrashIcon.classList.add('fal', 'fa-trash-alt', 'scale-element', 'padding-right');
+    taskInfoIcon.classList.add('fal', 'scale-element', 'fa-info-circle');
 
     // APPENDS
-    tasksList.appendChild(todo);
+    taskIconAndTextDiv.appendChild(taskIcon);
+    taskIconAndTextDiv.appendChild(taskText);
+    taskInfo.appendChild(taskDueDate);
+    taskInfo.appendChild(taskEditIcon);
+    taskInfo.appendChild(taskTrashIcon);
+    taskInfo.appendChild(taskInfoIcon);
+    taskDiv.appendChild(taskIconAndTextDiv);
+    taskDiv.appendChild(taskInfo);
+    tasksList.appendChild(taskDiv);
 
     manipulateModal('close');
   }

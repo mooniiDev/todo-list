@@ -7,6 +7,8 @@
   --light-grey: #F7F7F7;
   --dark-grey: #757575;
   --white: #FFFFFF;
+  --green: #61B874;
+  --yellow: #E6DB7B;
   --red: #E67B7B;
   --dark-red: #C46161;
 }
@@ -32,18 +34,33 @@ select:focus {
 
 /* Aligning */
 .padding-right {
-  padding-right: 5px;
+  padding-right: 7px;
 }
 
 /* Visual styles */
 .hide {
   display: none;
 }
+.flex {
+  display: flex;
+}
 .add-z-index {
   z-index: 1;
 }
 .hover-element:hover {
   cursor: pointer;
+}
+.scale-element:hover {
+  transform: scale(1.1);
+}
+.low-priority {
+  color: var(--green);
+}
+.mid-priority {
+  color: var(--yellow);
+}
+.high-priority {
+  color: var(--red);
 }
 
 /* HEADER */
@@ -136,10 +153,6 @@ select:focus {
 .project-link p {
   padding-left: 3px;
 }
-.fa-edit:hover,
-.fa-trash-alt:hover {
-  transform: scale(1.2);
-}
 .selected-link {
   background-color: var(--aqua);
   color: var(--white);
@@ -166,7 +179,8 @@ select:focus {
   font-size: 18px;
   border-bottom: 1px solid var(--dark-grey);
 }
-.project-text {
+.project-text,
+.task-text {
   white-space: nowrap;
   max-width: 140px;
   overflow: hidden;
@@ -210,15 +224,28 @@ select:focus {
 .tasks-title {
   display: flex;
 }
-.todo {
+.task-div {
   display: flex;
+  justify-content: space-between;
   padding: 20px;
   border-bottom: 1px solid var(--light-grey);
   transition: .3s;
 }
-.todo:hover {
+.task-div:hover {
   box-shadow: inset 0 -60px 0 0 var(--light-grey);
   transition: .3s;
+}
+.task-text {
+  max-width: 680px;
+}
+.due-date {
+  align-self: center;
+  margin-right: 7px;
+  font-size: 13px;
+  color: var(--dark-aqua);
+}
+.default-tasks-icons i {
+  font-size: 17px;
 }
 
 /* FOOTER */
