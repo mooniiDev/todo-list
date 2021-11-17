@@ -56,50 +56,6 @@ const dom = (() => {
     }
   }
 
-  function selectMenuLink(target, index) {
-    const allMenuLinks = document.querySelectorAll('.link');
-    const addTaskButton = document.querySelector('.add-task');
-
-    addTaskButton.classList.add('hide'); // By default 'Add Task' button is hidden
-
-    allMenuLinks.forEach((link) => {
-      link.classList.remove('selected-link');
-    });
-
-    // IF CLICKED ON MENU LINK
-    if (target.classList.contains('menu-link')) {
-      target.classList.add('selected-link');
-
-      // IF CLICKED ON MENU LINK ICON OR TEXT
-    } else if (target.classList.contains('menu-link-icon')
-            || target.classList.contains('menu-link-text')) {
-      target.parentElement.classList.add('selected-link');
-
-      // IF CLICKED SOMEWHERE ON PROJECT LINK
-    } else if (target.classList.contains('project')) {
-      // SHOW BUTTON TO ADD A TASK TO SELECTED PROJECT
-      addTaskButton.classList.remove('hide');
-
-      // SHOW TASKS COUNT DEPENDING ON SELECTED PROJECT
-      tasksCount.textContent = projects.projectsList[index].tasks.length;
-
-      // IF CLICKED DIRECTLY ON PROJECT LINK
-      if (target.classList.contains('project-link')) {
-        target.classList.add('selected-link');
-
-        // IF CLICKED ON PROJECT ICON OR TEXT
-      } else if (target.classList.contains('project-icon')
-              || target.classList.contains('project-text')) {
-        target.parentElement.parentElement.classList.add('selected-link');
-
-        // IF CLICKED ON PROJECT ELEMENTS DIVS
-      } else if (target.classList.contains('project-icon-and-text-div')
-              || target.classList.contains('project-default-icons-div')) {
-        target.parentElement.classList.add('selected-link');
-      }
-    }
-  }
-
   function manipulateModal(state, title, task, index) {
     const modalHeader = modal.querySelector('.modal-header');
     const modalMainTitle = modal.querySelector('.modal-main-title');
@@ -281,9 +237,9 @@ const dom = (() => {
       projectText.setAttribute('data-index', i);
 
       // PROJECT DEFAULT ICONS
-      projectEditIcon.classList.add('fal', 'fa-edit', 'edit-project', 'scale-element', 'padding-right');
+      projectEditIcon.classList.add('fal', 'fa-edit', 'project', 'edit-project', 'scale-element', 'padding-right');
       projectEditIcon.setAttribute('data-index', i);
-      projectTrashIcon.classList.add('fal', 'fa-trash-alt', 'scale-element', 'delete-project');
+      projectTrashIcon.classList.add('fal', 'fa-trash-alt', 'project', 'delete-project', 'scale-element');
       projectTrashIcon.setAttribute('data-index', i);
 
       // APPENDS
@@ -300,68 +256,121 @@ const dom = (() => {
   }
 
   // TASKS
-  function showTasks(index, title, date, priority) {
+  function showTasks(index) {
     const tasksList = document.querySelector('.tasks-list');
-    const taskDiv = document.createElement('div');
-    const taskIconAndTextDiv = document.createElement('div');
-    const taskIcon = document.createElement('i');
-    const taskText = document.createElement('p');
-    const taskInfo = document.createElement('div');
-    const taskDueDate = document.createElement('p');
-    const taskEditIcon = document.createElement('i');
-    const taskTrashIcon = document.createElement('i');
-    const taskInfoIcon = document.createElement('i');
 
     // SHOW NUMBER OF TASKS
     tasksCount.textContent = projects.projectsList[index].tasks.length;
+    tasksList.textContent = '';
 
-    // TASK DIV
-    taskDiv.classList.add('task-div', 'hover-element');
+    for (let i = 0; i < projects.projectsList[index].tasks.length; i += 1) {
+      const taskDiv = document.createElement('div');
+      const taskIconAndTextDiv = document.createElement('div');
+      const taskIcon = document.createElement('i');
+      const taskText = document.createElement('p');
+      const taskInfo = document.createElement('div');
+      const taskDueDate = document.createElement('p');
+      const taskEditIcon = document.createElement('i');
+      const taskTrashIcon = document.createElement('i');
+      const taskInfoIcon = document.createElement('i');
 
-    // TASK ICON, TEXT AND ITS DIV
-    taskIconAndTextDiv.classList.add('flex');
+      // TASK DIV
+      taskDiv.classList.add('task-div', 'hover-element');
 
-    if (priority === 'low') {
-      taskIcon.classList.add('fal', 'fa-circle', 'low-priority', 'padding-right');
-    } else if (priority === 'medium') {
-      taskIcon.classList.add('fal', 'fa-circle', 'mid-priority', 'padding-right');
-    } else if (priority === 'high') {
-      taskIcon.classList.add('fal', 'fa-circle', 'high-priority', 'padding-right');
-    } else {
-      taskIcon.classList.add('fal', 'fa-circle', 'padding-right');
+      // TASK PRIORITY, TEXT AND ITS DIV
+      taskIconAndTextDiv.classList.add('flex');
+
+      if (projects.projectsList[index].tasks[i].priority === 'low') {
+        taskIcon.classList.add('fal', 'fa-circle', 'low-priority', 'padding-right');
+      } else if (projects.projectsList[index].tasks[i].priority === 'medium') {
+        taskIcon.classList.add('fal', 'fa-circle', 'mid-priority', 'padding-right');
+      } else if (projects.projectsList[index].tasks[i].priority === 'high') {
+        taskIcon.classList.add('fal', 'fa-circle', 'high-priority', 'padding-right');
+      } else {
+        taskIcon.classList.add('fal', 'fa-circle', 'padding-right');
+      }
+
+      taskText.classList.add('task-text');
+      taskText.textContent = projects.projectsList[index].tasks[i].title;
+
+      // TASK INFO DIV
+      taskInfo.classList.add('flex');
+
+      // TASKS DUE DATE
+      taskDueDate.classList.add('due-date', 'padding-right');
+      if (projects.projectsList[index].tasks[i].date !== undefined) {
+        taskDueDate.textContent = projects.projectsList[index].tasks[i].date;
+      } else {
+        taskDueDate.textContent = '';
+      }
+
+      // TASK DEFAULT ICONS
+      taskEditIcon.classList.add('fal', 'fa-edit', 'scale-element', 'padding-right');
+      taskTrashIcon.classList.add('fal', 'fa-trash-alt', 'scale-element', 'padding-right');
+      taskInfoIcon.classList.add('fal', 'scale-element', 'fa-info-circle');
+
+      // APPENDS
+      taskIconAndTextDiv.appendChild(taskIcon);
+      taskIconAndTextDiv.appendChild(taskText);
+      taskInfo.appendChild(taskDueDate);
+      taskInfo.appendChild(taskEditIcon);
+      taskInfo.appendChild(taskTrashIcon);
+      taskInfo.appendChild(taskInfoIcon);
+      taskDiv.appendChild(taskIconAndTextDiv);
+      taskDiv.appendChild(taskInfo);
+      tasksList.appendChild(taskDiv);
     }
-
-    taskText.classList.add('task-text');
-    taskText.textContent = title;
-
-    // TASK INFO DIV
-    taskInfo.classList.add('flex');
-
-    // TASKS DUE DATE
-    taskDueDate.classList.add('due-date', 'padding-right');
-    if (date !== undefined) {
-      taskDueDate.textContent = date;
-    } else {
-      taskDueDate.textContent = '';
-    }
-
-    // TASK DEFAULT ICONS
-    taskEditIcon.classList.add('fal', 'fa-edit', 'scale-element', 'padding-right');
-    taskTrashIcon.classList.add('fal', 'fa-trash-alt', 'scale-element', 'padding-right');
-    taskInfoIcon.classList.add('fal', 'scale-element', 'fa-info-circle');
-
-    // APPENDS
-    taskIconAndTextDiv.appendChild(taskIcon);
-    taskIconAndTextDiv.appendChild(taskText);
-    taskInfo.appendChild(taskDueDate);
-    taskInfo.appendChild(taskEditIcon);
-    taskInfo.appendChild(taskTrashIcon);
-    taskInfo.appendChild(taskInfoIcon);
-    taskDiv.appendChild(taskIconAndTextDiv);
-    taskDiv.appendChild(taskInfo);
-    tasksList.appendChild(taskDiv);
 
     manipulateModal('close');
+  }
+
+  function selectMenuLink(target, index) {
+    const allMenuLinks = document.querySelectorAll('.link');
+    const addTaskButton = document.querySelector('.add-task');
+
+    addTaskButton.classList.add('hide'); // By default 'Add Task' button is hidden
+
+    allMenuLinks.forEach((link) => {
+      link.classList.remove('selected-link');
+    });
+
+    // IF CLICKED ON MENU LINK
+    if (target.classList.contains('menu-link')) {
+      target.classList.add('selected-link');
+
+      // IF CLICKED ON MENU LINK ICON OR TEXT
+    } else if (target.classList.contains('menu-link-icon')
+            || target.classList.contains('menu-link-text')) {
+      target.parentElement.classList.add('selected-link');
+
+      // IF CLICKED SOMEWHERE ON PROJECT LINK
+    } else if (target.classList.contains('project')) {
+      // SHOW BUTTON TO ADD A TASK TO SELECTED PROJECT
+      addTaskButton.classList.remove('hide');
+
+      // SHOW TASKS COUNT DEPENDING ON SELECTED PROJECT
+      tasksCount.textContent = projects.projectsList[index].tasks.length;
+
+      // SHOW TASKS DEPENDING ON SELECTED PROJECT
+      showTasks(index);
+
+      // IF CLICKED DIRECTLY ON PROJECT LINK
+      if (target.classList.contains('project-link')) {
+        target.classList.add('selected-link');
+
+        // IF CLICKED ON PROJECT ICON OR TEXT OR EDIT/DELETE ICONS
+      } else if (target.classList.contains('project-icon')
+              || target.classList.contains('project-text')
+              || target.classList.contains('edit-project')
+              || target.classList.contains('delete-project')) {
+        target.parentElement.parentElement.classList.add('selected-link');
+
+        // IF CLICKED ON PROJECT ELEMENTS DIVS
+      } else if (target.classList.contains('project-icon-and-text-div')
+              || target.classList.contains('project-default-icons-div')) {
+        target.parentElement.classList.add('selected-link');
+      }
+    }
   }
 
   return {
