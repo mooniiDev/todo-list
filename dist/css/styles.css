@@ -235,8 +235,43 @@ select:focus {
   box-shadow: inset 0 -60px 0 0 var(--light-grey);
   transition: .3s;
 }
+
+/* TASK INFO */
+.task-title-div,
+.task-description-div,
+.task-due-date-div,
+.task-priority-div,
+.task-project-div {
+  display: flex;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--grey);
+}
+.task-title-div {
+  padding-top: 0;
+}
+.task-project-div {
+  border-bottom: none;
+}
+.info-title,
+.info-description,
+.info-due-date,
+.info-priority,
+.info-project {
+  width: 110px;
+  font-weight: 900;
+}
+.info-task-title,
+.info-task-description,
+.info-task-priority {
+  width: 250px;
+}
+.info-task-description {
+  height: 60px;
+  line-height: 20px;
+  overflow-y: scroll;
+}
 .task-text {
-  max-width: 680px;
+  max-width: 650px;
 }
 .due-date {
   align-self: center;
@@ -479,10 +514,22 @@ select:focus {
 }
 
 /* RESPONSIVE */
+@media (max-width: 1500px) {
+
+  .task-text {
+    max-width: 400px;
+  }
+
+}
+
 @media (max-width: 1000px) {
 
   .toggle-menu {
     display: block;
+  }
+
+  .task-text {
+    max-width: 160px;
   }
 
 }
