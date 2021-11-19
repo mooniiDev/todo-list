@@ -9,7 +9,6 @@ const dom = (() => {
   const form = document.querySelector('#form');
   const modalTitle = document.querySelector('#modal-title');
   const modalTitleError = document.querySelector('.modal-title-error');
-  const deletionModalTitle = modal.querySelector('.modal-title');
   const mainTitleIcon = document.querySelector('.main-title-icon');
   const mainTitleText = document.querySelector('.main-title-text');
   const tasksCount = document.querySelector('.tasks-count');
@@ -56,11 +55,43 @@ const dom = (() => {
     }
   }
 
+  function watchTaskInfo(projectIndex, taskIndex) {
+    const infoTaskTitle = document.querySelector('.info-task-title');
+    const infoTaskDescription = document.querySelector('.info-task-description');
+    const infoTaskDueDate = document.querySelector('.info-task-due-date');
+    const infoTaskPriority = document.querySelector('.info-task-priority');
+    const infoTaskProject = document.querySelector('.info-task-project');
+
+    // TASK TITLE
+    infoTaskTitle.textContent = `${projects.projectsList[projectIndex].tasks[taskIndex].title}`;
+
+    // TASK DESCRIPTION
+    infoTaskDescription.textContent = `${projects.projectsList[projectIndex].tasks[taskIndex].description}`;
+
+    // TASK DUE DATE
+    infoTaskDueDate.textContent = `${projects.projectsList[projectIndex].tasks[taskIndex].date}`;
+
+    // TASK PRIORITY
+    if (projects.projectsList[projectIndex].tasks[taskIndex].priority === 'low') {
+      infoTaskPriority.textContent = 'LOW - It can wait for a month or two.. 😴';
+    } else if (projects.projectsList[projectIndex].tasks[taskIndex].priority === 'medium') {
+      infoTaskPriority.textContent = 'MEDIUM - Somewhere between Relax & Focus 😅';
+    } else if (projects.projectsList[projectIndex].tasks[taskIndex].priority === 'high') {
+      infoTaskPriority.textContent = 'HIGH - Now or never! 😲';
+    } else {
+      infoTaskPriority.textContent = '';
+    }
+
+    // TASK PROJECT
+    infoTaskProject.textContent = projects.projectsList[projectIndex].title;
+  }
+
   function manipulateModal(state, title, task, projectIndex, taskIndex) {
     const modalHeader = modal.querySelector('.modal-header');
     const modalMainTitle = modal.querySelector('.modal-main-title');
-    const modalTask = modal.querySelector('.modal-task');
-    const deletionText = modal.querySelector('.deletion-text');
+    const modalTaskButton = modal.querySelector('.modal-task-button');
+    const projectDeletionText = modal.querySelector('.project-deletion-text');
+    const taskDeletionText = modal.querySelector('.task-deletion-text');
     const taskInfoDiv = modal.querySelector('.info-div');
     const confirmButton = modal.querySelector('.confirm-modal');
     const cancelButton = modal.querySelector('.cancel-modal');
@@ -70,7 +101,8 @@ const dom = (() => {
     form.classList.remove('hide');
     taskInfoDiv.classList.add('hide');
     modalTitleError.classList.add('hide');
-    deletionText.classList.add('hide');
+    projectDeletionText.classList.add('hide');
+    taskDeletionText.classList.add('hide');
     cancelButton.classList.remove('cancel-deletion');
     confirmButton.classList.remove('confirm-deletion', 'hide');
 
@@ -80,7 +112,7 @@ const dom = (() => {
 
       modal.classList.remove('hide');
       modalMainTitle.textContent = title;
-      modalTask.textContent = task;
+      modalTaskButton.textContent = task;
       modalIconsDiv.classList.remove('hide');
       modalIconsDiv.classList.add('show');
       modalTasksDiv.classList.add('hide');
@@ -93,38 +125,11 @@ const dom = (() => {
 
         // IF MODAL IS FOR WATCHING TASK INFO
       } else if (title === 'Task Info') {
-        const infoTaskTitle = document.querySelector('.info-task-title');
-        const infoTaskDescription = document.querySelector('.info-task-description');
-        const infoTaskDueDate = document.querySelector('.info-task-due-date');
-        const infoTaskPriority = document.querySelector('.info-task-priority');
-        const infoTaskProject = document.querySelector('.info-task-project');
-
         form.classList.add('hide');
         confirmButton.classList.add('hide');
         taskInfoDiv.classList.remove('hide');
 
-        // TASK TITLE
-        infoTaskTitle.textContent = `${projects.projectsList[projectIndex].tasks[taskIndex].title}`;
-
-        // TASK DESCRIPTION
-        infoTaskDescription.textContent = `${projects.projectsList[projectIndex].tasks[taskIndex].description}`;
-
-        // TASK DUE DATE
-        infoTaskDueDate.textContent = `${projects.projectsList[projectIndex].tasks[taskIndex].date}`;
-
-        // TASK PRIORITY
-        if (projects.projectsList[projectIndex].tasks[taskIndex].priority === 'low') {
-          infoTaskPriority.textContent = 'LOW - It can wait for a month or two.. 😴';
-        } else if (projects.projectsList[projectIndex].tasks[taskIndex].priority === 'medium') {
-          infoTaskPriority.textContent = 'MEDIUM - Somewhere between Relax & Focus 😅';
-        } else if (projects.projectsList[projectIndex].tasks[taskIndex].priority === 'high') {
-          infoTaskPriority.textContent = 'HIGH - Now or never! 😲';
-        } else {
-          infoTaskPriority.textContent = '';
-        }
-
-        // TASK PROJECT
-        infoTaskProject.textContent = projects.projectsList[projectIndex].title;
+        watchTaskInfo(projectIndex, taskIndex);
       }
 
       // TO CLOSE THE MODAL
@@ -132,13 +137,27 @@ const dom = (() => {
       modal.classList.add('hide');
     }
 
+    // DELETION MODAL CONTENT
     if (task === 'Delete') {
       modalHeader.classList.add('deletion-modal-header');
-      deletionText.classList.remove('hide');
-      deletionModalTitle.textContent = projects.projectsList[projectIndex].title;
       form.classList.add('hide');
       cancelButton.classList.add('cancel-deletion');
       confirmButton.classList.add('confirm-deletion');
+
+      // PROJECT DELETION
+      if (title === 'Delete Project') {
+        const projectDeletionTitle = document.querySelector('.project-deletion-title');
+
+        projectDeletionText.classList.remove('hide');
+        projectDeletionTitle.textContent = projects.projectsList[projectIndex].title;
+
+        // TASK DELETION
+      } else if (title === 'Delete Task') {
+        const taskDeletionTitle = document.querySelector('.task-deletion-title');
+
+        taskDeletionText.classList.remove('hide');
+        taskDeletionTitle.textContent = projects.projectsList[projectIndex].tasks[taskIndex].title;
+      }
     }
   }
 
@@ -345,9 +364,9 @@ const dom = (() => {
       }
 
       // TASK DEFAULT ICONS
-      taskEditIcon.classList.add('fal', 'fa-edit', 'scale-element', 'padding-right');
+      taskEditIcon.classList.add('fal', 'fa-edit', 'edit-task', 'scale-element', 'padding-right');
       taskEditIcon.setAttribute('data-index', i);
-      taskTrashIcon.classList.add('fal', 'fa-trash-alt', 'scale-element', 'padding-right');
+      taskTrashIcon.classList.add('fal', 'fa-trash-alt', 'delete-task', 'scale-element', 'padding-right');
       taskTrashIcon.setAttribute('data-index', i);
       taskInfoIcon.classList.add('fal', 'scale-element', 'fa-info-circle');
       taskInfoIcon.setAttribute('data-index', i);

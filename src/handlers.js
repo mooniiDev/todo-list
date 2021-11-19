@@ -43,6 +43,11 @@ const handlers = (() => {
       } else if (target.classList.contains('add-task')) {
         dom.manipulateModal('show', 'Add Task', 'Add');
 
+        // MODAL TO DELETE A TASK
+      } else if (target.classList.contains('delete-task')) {
+        const taskIndex = parseInt(target.getAttribute('data-index'), 10);
+        dom.manipulateModal('show', 'Delete Task', 'Delete', 0, taskIndex);
+
         // MODAL TO WATCH TASK INFO
       } else if (target.classList.contains('fa-info-circle')) {
         const selectedProject = document.querySelector('.selected-link');
@@ -60,9 +65,20 @@ const handlers = (() => {
         } else if (target.textContent === 'Edit') {
           index = parseInt(selectedProject.getAttribute('data-index'), 10);
           dom.validateModal('edit', index);
+
+          // DELETION MODAL
         } else if (target.textContent === 'Delete') {
-          index = parseInt(selectedProject.getAttribute('data-index'), 10);
-          dom.validateModal('delete', index);
+          const projectDeletionText = document.querySelector('.project-deletion-text');
+
+          // FOR PROJECT DELETION
+          if (!projectDeletionText.classList.contains('hide')) {
+            const projectIndex = parseInt(selectedProject.getAttribute('data-index'), 10);
+            dom.validateModal('delete', projectIndex);
+
+            // FOR TASK DELETION
+          } else if (projectDeletionText.classList.contains('hide')) {
+            console.log('Delete a task!');
+          }
         }
 
         // CLOSE MODAL
