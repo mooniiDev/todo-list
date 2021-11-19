@@ -32,12 +32,12 @@ select:focus {
   outline: none;
 }
 
-/* Aligning */
+/* ALIGNING */
 .padding-right {
   padding-right: 7px;
 }
 
-/* Visual styles */
+/* VISUAL STYLES */
 .hide {
   display: none;
 }
@@ -208,7 +208,7 @@ select:focus {
 }
 
 /* TASKS */
-#tasks-div {
+.tasks-div {
   max-width: 1000px;
   margin: 0 auto;
   padding: 40px;
@@ -266,6 +266,7 @@ select:focus {
   width: 250px;
 }
 .info-task-description {
+  padding-right: 5px;
   height: 60px;
   line-height: 20px;
   overflow-y: scroll;
@@ -275,7 +276,6 @@ select:focus {
 }
 .due-date {
   align-self: center;
-  margin-right: 7px;
   font-size: 13px;
   color: var(--dark-aqua);
 }
@@ -449,16 +449,12 @@ select:focus {
   background-color: var(--dark-aqua);
 }
 
-/* MODAL TO ADD A TASK */
-.task-description {
-  width: 100%;
-}
-
 /* MODAL TO DELETE A PROJECT */
 .deletion-modal-header {
   background: linear-gradient(90deg, var(--dark-red) 0%, var(--red) 100%);
 }
-.modal-title {
+.project-deletion-title,
+.task-deletion-title {
   font-weight: 900;
 }
 .cancel-deletion:hover {

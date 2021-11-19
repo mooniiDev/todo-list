@@ -77,7 +77,7 @@
     </div>
 
     <!-- TASKS -->
-    <div id="tasks-div">
+    <div class="tasks-div">
 
       <!-- TASKS TITLE -->
       <div class="tasks-title-div">
@@ -108,9 +108,13 @@
       </div>
       <div class="modal-content">
 
-        <!-- DELETION CONTENT -->
-        <p class="deletion-text hide">Are you sure?<br><br>
-        Project 《 <span class="modal-title"></span> 》 will be gone forever!</p>
+        <!-- PROJECT DELETION -->
+        <p class="project-deletion-text hide">Are you sure?<br><br>
+        Project 《 <span class="project-deletion-title"></span> 》 will be gone forever!</p>
+
+        <!-- TASK DELETION -->
+        <p class="task-deletion-text hide">Are you sure?<br><br>
+          Task 《 <span class="task-deletion-title"></span> 》 will be gone forever!</p>
 
         <!-- TASK INFO CONTENT -->
         <div class="info-div hide">
@@ -148,6 +152,7 @@
         </div>
 
         <form id="form" name="form" method="POST">
+
           <!-- MODAL TITLE INPUT -->
           <div>
             <label id="modal-title-label" for="modal-title">Title<span class="title-star">*</span></label>
@@ -211,8 +216,9 @@
           </div>
 
           <!-- MODAL CONTENT FOR A TASK -->
-          <!-- TASK DESCRIPTION -->
           <div class="modal-tasks-div hide">
+
+            <!-- TASK DESCRIPTION -->
             <div class="task-description-area">
               <label for="task-description">Description</label>
               <textarea class="task-description" rows="3" cols="36"></textarea>
@@ -241,7 +247,7 @@
         <!-- MODAL BUTTONS -->
         <div class="modal-options">
           <button type="button" class="cancel-modal close">Cancel</button>
-          <button type="button" class="modal-task confirm-modal"></button>
+          <button type="button" class="modal-task-button confirm-modal"></button>
         </div>
 
       </div>
