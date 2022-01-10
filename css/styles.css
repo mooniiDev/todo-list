@@ -136,9 +136,9 @@ select:focus {
   display: inline-block;
   vertical-align: middle;
 }
-.menu-link,
+.link,
 .project-link {
-  display: block;
+  display: flex;
   margin-bottom: 20px;
   padding: 12px 20px;
   background-color: var(--white);
@@ -149,7 +149,7 @@ select:focus {
   border-radius: 5px;
   transition: .3s;
 }
-.menu-link p,
+.link p,
 .project-link p {
   padding-left: 3px;
 }
@@ -160,7 +160,7 @@ select:focus {
 .selected-link:hover {
   background-color: var(--dark-aqua);
 }
-.menu-link:not(.selected-link):hover,
+.link:not(.selected-link):hover,
 .project-link:not(.selected-link):hover {
   border: 1px solid var(--aqua);
   transition: .3s;
@@ -187,7 +187,6 @@ select:focus {
   text-overflow: ellipsis;
 }
 .project-link {
-  display: flex;
   justify-content: space-between;
 }
 
