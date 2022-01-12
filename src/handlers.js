@@ -12,6 +12,8 @@ const handlers = (() => {
     document.addEventListener('click', (event) => {
       const { target } = event;
 
+      index = parseInt(target.getAttribute('data-index'), 10); // Get and index of clicked link
+
       // TOGGLE SIDE MENU
       if (
         target.classList.contains('toggle-menu') ||
@@ -21,21 +23,19 @@ const handlers = (() => {
 
         // STYLE CLICKED LINK
       } else if (target.classList.contains('select')) {
-        dom.selectLink(target);
 
-        // IN THE MAIN CONTENT SHOW LINK TITLE ACCORDINGLY
-        index = parseInt(target.getAttribute('data-index'), 10);
+        dom.selectLink(target, index);
+
+        // IN THE MAIN CONTENT SHOW MENU TITLE ACCORDINGLY
         dom.changeMainTitle(target, index);
 
         // MODAL FOR PROJECT EDITION
         if (target.classList.contains('edit-project')) {
-          index = parseInt(target.getAttribute('data-index'), 10);
           dom.manipulateModal('show', 'Edit Project', 'Edit');
           dom.editProject(index);
 
           // MODAL FOR PROJECT DELETION
         } else if (target.classList.contains('delete-project')) {
-          index = parseInt(target.getAttribute('data-index'), 10);
           dom.manipulateModal('show', 'Delete Project', 'Delete', index);
         }
       }
@@ -76,8 +76,7 @@ const handlers = (() => {
           const projectDeletionText = document.querySelector('.project-deletion-text');
 
           // DELETE A PROJECT
-          // IF DELETION TEXT IS SHOWN
-          if (!projectDeletionText.classList.contains('hide')) {
+          if (!projectDeletionText.classList.contains('hide')) { // If deletion text is shown
             const projectIndex = parseInt(selectedProject.getAttribute('data-index'), 10);
 
             dom.validateModal('delete', projectIndex);
