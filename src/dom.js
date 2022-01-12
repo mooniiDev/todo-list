@@ -126,7 +126,7 @@ const dom = (() => {
       modalIconsDiv.classList.add('show');
       modalTasksDiv.classList.add('hide');
 
-      // IF MODAL IS FOR ADDING A TASK
+      // IF MODAL IS FOR ADDING TASK
       if (title === 'Add Task') {
         modalIconsDiv.classList.remove('show');
         modalIconsDiv.classList.add('hide');
@@ -187,15 +187,15 @@ const dom = (() => {
         modalTitleError.classList.remove('hide');
         modalTitleError.classList.add('show');
 
-        // ADD A PROJECT TO ARRAY
+        // ADD PROJECT TO ARRAY
       } else if (task === 'add' && projectIconsDiv.classList.contains('show')) {
         projects.addProject(projectDomIcon, modalTitleText);
 
-        // EDIT A PROJECT FROM ARRAY
+        // EDIT PROJECT FROM ARRAY
       } else if (task === 'edit') {
         projects.editProject(projectDomIcon, modalTitleText, index);
 
-        // ADD A TASK TO ARRAY
+        // ADD TASK TO ARRAY
       } else if (task === 'add' && projectIconsDiv.classList.contains('hide')) {
         const selectedLink = document.querySelector('.selected-link');
         const selectedProject = selectedLink.getAttribute('data-index');
@@ -224,7 +224,7 @@ const dom = (() => {
         );
       }
 
-      // DELETE A PROJECT FROM ARRAY
+      // DELETE PROJECT FROM ARRAY
     } else if (task === 'delete') {
       projects.deleteProject(index);
     }
@@ -411,8 +411,14 @@ const dom = (() => {
     } else if (!Number.isNaN(index)) { // If number of index exists - project was clicked
       indexStart = index;
       indexEnd = index + 1;
+
+      // IF PROJECT DOESN'T HAVE ANY TASKS
+      if (projects.projectsList[index].tasks.length === 0) {
+        tasksCount.textContent = 0;
+      }
     }
 
+    // GENERATE TASKS LIST
     for (let i = indexStart; i < indexEnd; i += 1) {
       for (let j = 0; j < projects.projectsList[i].tasks.length; j += 1) {
         const taskDiv = document.createElement('div');
@@ -519,7 +525,7 @@ const dom = (() => {
       link.classList.remove('selected-link');
     });
 
-    // IF CLICKED DIRECTLY ON A LINK (BOTH - MENU OR PROJECT)
+    // IF CLICKED DIRECTLY ON LINK (BOTH - MENU OR PROJECT)
     if (target.classList.contains('link')) {
       target.classList.add('selected-link');
 
@@ -533,7 +539,7 @@ const dom = (() => {
 
     // IF CLICKED SOMEWHERE ON PROJECT LINK
     if (target.classList.contains('project')) {
-      // SHOW BUTTON TO ADD A TASK FOR SELECTED PROJECT
+      // SHOW BUTTON TO ADD TASK FOR SELECTED PROJECT
       addTaskButton.classList.remove('hide');
       showTasks('', index);
 
