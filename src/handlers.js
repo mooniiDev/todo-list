@@ -29,26 +29,26 @@ const handlers = (() => {
         // IN THE MAIN CONTENT SHOW MENU TITLE ACCORDINGLY
         dom.changeMainTitle(target, index);
 
-        // MODAL FOR PROJECT EDITION
+        // MODAL FOR EDITING A PROJECT
         if (target.classList.contains('edit-project')) {
           dom.manipulateModal('show', 'Edit Project', 'Edit');
           dom.editProject(index);
 
-          // MODAL FOR PROJECT DELETION
+          // MODAL FOR DELETING A PROJECT
         } else if (target.classList.contains('delete-project')) {
           dom.manipulateModal('show', 'Delete Project', 'Delete', index);
         }
       }
 
-      // MODAL FOR PROJECT ADDITION
+      // MODAL FOR ADDING A PROJECT
       if (target.classList.contains('add-project')) {
         dom.manipulateModal('show', 'Add Project', 'Add');
 
-        // MODAL FOR TASK ADDITION
+        // MODAL FOR ADDING A TASK
       } else if (target.classList.contains('add-task')) {
         dom.manipulateModal('show', 'Add Task', 'Add');
 
-        // MODAL FOR TASK DELETION
+        // MODAL FOR DELETING A TASK
       } else if (target.classList.contains('delete-task')) {
         const taskIndex = parseInt(target.getAttribute('data-index'), 10);
         dom.manipulateModal('show', 'Delete Task', 'Delete', 0, taskIndex);
@@ -65,13 +65,16 @@ const handlers = (() => {
       } else if (target.classList.contains('confirm-modal')) {
         const selectedProject = document.querySelector('.selected-link');
 
+        // VALIDATE MODAL FOR ADDING
         if (target.textContent === 'Add') {
           dom.validateModal('add');
+
+          // VALIDATE MODAL FOR EDITING
         } else if (target.textContent === 'Edit') {
           index = parseInt(selectedProject.getAttribute('data-index'), 10);
           dom.validateModal('edit', index);
 
-          // DELETION MODAL
+          // VALIDATE MODAL FOR DELETING
         } else if (target.textContent === 'Delete') {
           const projectDeletionText = document.querySelector('.project-deletion-text');
 

@@ -383,44 +383,27 @@ const dom = (() => {
   }
 
   // TASKS
-  function showTasks(menuTitle, index) {
+  function showTasks(menuTitle, projectIndexStart, projectIndexEnd) {
     let tasksNumber = 0;
-    let indexStart;
-    let indexEnd;
-
     tasksList.textContent = '';
 
-    // IF CLICKED ON MENU LINK 'ALL'
-    if (menuTitle === 'all') {
-      indexStart = 0;
-      indexEnd = projects.projectsList.length;
-
-      // IF CLICKED ON MENU LINK 'TODAY'
-    } else if (menuTitle === 'today') {
-      tasksList.textContent = 'Tasks for today..';
-
-      // IF CLICKED ON MENU LINK 'WEEK'
-    } else if (menuTitle === 'week') {
-      tasksList.textContent = 'Tasks of the week..';
-
-      // IF CLICKED ON MENU LINK 'IMPORTANT'
-    } else if (menuTitle === 'important') {
-      tasksList.textContent = 'Important tasks..';
-
-      // IF CLICKED ON PROJECT LINK
-    } else if (!Number.isNaN(index)) { // If number of index exists - project was clicked
-      indexStart = index;
-      indexEnd = index + 1;
-
-      // IF PROJECT DOESN'T HAVE ANY TASKS
-      if (projects.projectsList[index].tasks.length === 0) {
-        tasksCount.textContent = 0;
-      }
-    }
-
     // GENERATE TASKS LIST
-    for (let i = indexStart; i < indexEnd; i += 1) {
+    for (let i = projectIndexStart; i < projectIndexEnd; i += 1) {
       for (let j = 0; j < projects.projectsList[i].tasks.length; j += 1) {
+
+        // IF CLICKED ON MENU LINK 'IMPORTANT' - FILTER NOT IMPORTANT TASKS
+        if (menuTitle === 'important' && projects.projectsList[i].tasks[j].priority !== 'high') {
+          continue; // If task isn't important - skip it
+
+          // IF CLICKED ON MENU LINK 'TODAY'
+        } else if (menuTitle === 'today') {
+          console.log('Tasks for today..');
+
+          // IF CLICKED ON MENU LINK 'WEEK'
+        } else if (menuTitle === 'week') {
+          console.log('Tasks of the week..');
+        }
+
         const taskDiv = document.createElement('div');
         const taskIconAndTextDiv = document.createElement('div');
         const taskIcon = document.createElement('i');
@@ -462,6 +445,7 @@ const dom = (() => {
             'high-priority',
             'padding-right'
           );
+
         } else {
           taskIcon.classList.add('fal', 'fa-circle', 'padding-right');
         }
@@ -514,6 +498,29 @@ const dom = (() => {
     }
   }
 
+  function getTasks(menuTitle, index) {
+    let projectIndexStart;
+    let projectIndexEnd;
+
+    // IF CLICKED ON PROJECT LINK
+    if (menuTitle === '' && !Number.isNaN(index)) { // If number of index exists - project was clicked
+      projectIndexStart = index;
+      projectIndexEnd = index + 1
+
+      // IF PROJECT DOESN'T HAVE ANY TASKS
+      if (projects.projectsList[index].tasks.length === 0) {
+        tasksCount.textContent = 0;
+      }
+
+      // IF CLICKED ON MENU LINK
+    } else {
+      projectIndexStart = 0;
+      projectIndexEnd = projects.projectsList.length;
+    }
+
+    showTasks(menuTitle, projectIndexStart, projectIndexEnd);
+  }
+
   function selectLink(target, index) {
     const allLinks = document.querySelectorAll('.link');
     const menuTitle = target.getAttribute('data-title');
@@ -541,7 +548,7 @@ const dom = (() => {
     if (target.classList.contains('project')) {
       // SHOW BUTTON TO ADD TASK FOR SELECTED PROJECT
       addTaskButton.classList.remove('hide');
-      showTasks('', index);
+      getTasks('', index);
 
       // IF CLICKED ON PROJECT ICON OR TEXT OR EDIT/DELETE ICONS
       if (
@@ -567,7 +574,7 @@ const dom = (() => {
       target.classList.contains('menu-link-icon') ||
       target.classList.contains('menu-link-text')
     ) {
-      dom.showTasks(menuTitle);
+      dom.getTasks(menuTitle);
     }
   }
 
@@ -580,6 +587,7 @@ const dom = (() => {
     changeMainTitle,
     editProject,
     showProjects,
+    getTasks,
     showTasks,
     selectLink,
   };
