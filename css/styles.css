@@ -16,7 +16,11 @@
 /* GENERAL STYLES */
 #body {
   font-family: 'Roboto', sans-serif;
+  font-weight: 400;
   color: var(--dark-grey);
+}
+h2 {
+  font-weight: 500;
 }
 p {
   margin: 0;
@@ -203,7 +207,7 @@ select:focus {
   font-size: 35px;
 }
 .main-title-text {
-  font-weight: 500;
+  font-weight: 400;
 }
 
 /* TASKS */
@@ -257,7 +261,7 @@ select:focus {
 .info-priority,
 .info-project {
   width: 110px;
-  font-weight: 900;
+  font-weight: 700;
 }
 .info-task-title,
 .info-task-description,
@@ -380,7 +384,7 @@ select:focus {
   margin: 10px 20px;
   color: var(--white);
   font-size: 20px;
-  font-weight: 900;
+  font-weight: 700;
   cursor: pointer;
 }
 .modal-content {
@@ -454,7 +458,7 @@ select:focus {
 }
 .project-deletion-title,
 .task-deletion-title {
-  font-weight: 900;
+  font-weight: 700;
 }
 .cancel-deletion:hover {
   color: var(--dark-grey);
