@@ -10,9 +10,8 @@ const handlers = (() => {
 
   function listenClicks() {
     document.addEventListener('click', (event) => {
+      const { target } = event;
       const selectedLink = document.querySelector('.selected-link');
-
-      let { target } = event;
 
       index = parseInt(target.getAttribute('data-index'), 10); // Get and index of clicked link
 
@@ -25,7 +24,6 @@ const handlers = (() => {
 
         // STYLE CLICKED LINK
       } else if (target.classList.contains('select')) {
-
         dom.selectLink(target, index);
 
         // IN THE MAIN CONTENT SHOW MENU TITLE ACCORDINGLY
