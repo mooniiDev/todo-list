@@ -226,7 +226,10 @@ const dom = (() => {
 
       // DELETE PROJECT FROM ARRAY
     } else if (task === 'delete') {
+      const allTasksLink = document.querySelector('.link');
+
       projects.deleteProject(index);
+      allTasksLink.classList.add('selected-link');
     }
   }
 
@@ -263,6 +266,8 @@ const dom = (() => {
       target.classList.contains('project-link') ||
       target.classList.contains('project-icon') ||
       target.classList.contains('project-text') ||
+      target.classList.contains('delete-project') ||
+      target.classList.contains('edit-project') ||
       target.classList.contains('project-icon-and-text-div') ||
       target.classList.contains('project-default-icons-div')
     ) {

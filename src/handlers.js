@@ -10,7 +10,9 @@ const handlers = (() => {
 
   function listenClicks() {
     document.addEventListener('click', (event) => {
-      const { target } = event;
+      const selectedLink = document.querySelector('.selected-link');
+
+      let { target } = event;
 
       index = parseInt(target.getAttribute('data-index'), 10); // Get and index of clicked link
 
@@ -55,15 +57,14 @@ const handlers = (() => {
 
         // MODAL FOR WATCHING TASK INFO
       } else if (target.classList.contains('fa-info-circle')) {
-        const selectedProject = document.querySelector('.selected-link');
+
         const taskIndex = parseInt(target.getAttribute('data-index'), 10);
-        const projectIndex = parseInt(selectedProject.getAttribute('data-index'), 10);
+        const projectIndex = parseInt(selectedLink.getAttribute('data-index'), 10);
 
         dom.manipulateModal('show', 'Task Info', '', projectIndex, taskIndex);
 
         // VALIDATE MODAL
       } else if (target.classList.contains('confirm-modal')) {
-        const selectedProject = document.querySelector('.selected-link');
 
         // VALIDATE MODAL FOR ADDING
         if (target.textContent === 'Add') {
@@ -71,8 +72,9 @@ const handlers = (() => {
 
           // VALIDATE MODAL FOR EDITING
         } else if (target.textContent === 'Edit') {
-          index = parseInt(selectedProject.getAttribute('data-index'), 10);
+          index = parseInt(selectedLink.getAttribute('data-index'), 10);
           dom.validateModal('edit', index);
+          target = selectedLink; // Get selected project
 
           // VALIDATE MODAL FOR DELETING
         } else if (target.textContent === 'Delete') {
@@ -80,9 +82,12 @@ const handlers = (() => {
 
           // DELETE A PROJECT
           if (!projectDeletionText.classList.contains('hide')) { // If deletion text is shown
-            const projectIndex = parseInt(selectedProject.getAttribute('data-index'), 10);
+            const projectIndex = parseInt(selectedLink.getAttribute('data-index'), 10);
 
             dom.validateModal('delete', projectIndex);
+            dom.changeMainTitle(target, 0); // After deleting a project - change icon to 'fa-calendar-alt' (menu link 'All')
+            dom.showMainTitle(0) // After deleting a project - show main title as 'All'
+            dom.getTasks('all'); // After deleting a project - show all tasks from all remaining projects
 
             // DELETE A TASK
           } else if (projectDeletionText.classList.contains('hide')) {
