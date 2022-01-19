@@ -56,6 +56,58 @@ const dom = (() => {
     }
   }
 
+  // MAIN CONTENT TITLE
+  function showMainTitle(index) {
+    const allMenuIcons = document.querySelectorAll('.menu-link-icon');
+    const menuIcon = allMenuIcons[index].getAttribute('data-icon');
+    const menuTexts = document.querySelectorAll('.menu-link-text');
+
+    mainTitleIcon.classList.add(
+      'fal',
+      'fa-fw',
+      'main-title-icon',
+      'padding-right',
+      menuIcon
+    );
+    mainTitleText.textContent = menuTexts[index].textContent;
+  }
+
+  function changeMainTitle(target, index) {
+    mainTitleIcon.className = '';
+
+    // TITLE OF TASKS FROM THE MENU
+    if (
+      target.classList.contains('menu-link') ||
+      target.classList.contains('menu-link-icon') ||
+      target.classList.contains('menu-link-text')
+    ) {
+      showMainTitle(index);
+    }
+
+    // TITLE OF TASKS FROM PROJECTS
+    if (
+      target.classList.contains('project-link') ||
+      target.classList.contains('project-icon') ||
+      target.classList.contains('project-text') ||
+      target.classList.contains('delete-project') ||
+      target.classList.contains('edit-project') ||
+      target.classList.contains('project-icon-and-text-div') ||
+      target.classList.contains('project-default-icons-div')
+    ) {
+      const projectIcon = projects.projectsList[index].icon;
+
+      mainTitleIcon.classList.add(
+        'fal',
+        'fa-fw',
+        'main-title-icon',
+        'padding-right',
+        projectIcon
+      );
+      mainTitleText.textContent = projects.projectsList[index].title;
+    }
+  }
+
+  // MODAL FUNCTIONALITY
   function watchTaskInfo(projectIndex, taskIndex) {
     const infoTaskTitle = document.querySelector('.info-task-title');
     const infoTaskDescription = document.querySelector(
@@ -178,6 +230,7 @@ const dom = (() => {
 
   function validateModal(task, index) {
     const { projectFormIcon } = document.forms.form;
+    const selectedLink = document.querySelector('.selected-link');
     const projectDomIcon = projectFormIcon.value;
     const projectIconsDiv = modal.querySelector('.radio-form');
     const modalTitleText = modalTitle.value;
@@ -195,9 +248,15 @@ const dom = (() => {
       } else if (task === 'edit') {
         projects.editProject(projectDomIcon, modalTitleText, index);
 
+        // KEEP PROJECT VISUALLLY SELECTED IN DOM AFTER EDITING
+        const allProjectsLinks = document.querySelectorAll('.project-link');
+        allProjectsLinks[index].classList.add('selected-link');
+
+        changeMainTitle(selectedLink, index); // Change main title to icon and text of selected project
+
         // ADD TASK TO ARRAY
       } else if (task === 'add' && projectIconsDiv.classList.contains('hide')) {
-        const selectedLink = document.querySelector('.selected-link');
+
         const selectedProject = selectedLink.getAttribute('data-index');
         const taskDescription = document.querySelector('.task-description').value;
         const taskDueDate = document.querySelector('#dueDate').value;
@@ -233,57 +292,6 @@ const dom = (() => {
     }
   }
 
-  // MAIN CONTENT
-  function showMainTitle(index) {
-    const allMenuIcons = document.querySelectorAll('.menu-link-icon');
-    const menuIcon = allMenuIcons[index].getAttribute('data-icon');
-    const menuTexts = document.querySelectorAll('.menu-link-text');
-
-    mainTitleIcon.classList.add(
-      'fal',
-      'fa-fw',
-      'main-title-icon',
-      'padding-right',
-      menuIcon
-    );
-    mainTitleText.textContent = menuTexts[index].textContent;
-  }
-
-  function changeMainTitle(target, index) {
-    mainTitleIcon.className = '';
-
-    // TITLE OF TASKS FROM THE MENU
-    if (
-      target.classList.contains('menu-link') ||
-      target.classList.contains('menu-link-icon') ||
-      target.classList.contains('menu-link-text')
-    ) {
-      showMainTitle(index);
-    }
-
-    // TITLE OF TASKS FROM PROJECTS
-    if (
-      target.classList.contains('project-link') ||
-      target.classList.contains('project-icon') ||
-      target.classList.contains('project-text') ||
-      target.classList.contains('delete-project') ||
-      target.classList.contains('edit-project') ||
-      target.classList.contains('project-icon-and-text-div') ||
-      target.classList.contains('project-default-icons-div')
-    ) {
-      const projectIcon = projects.projectsList[index].icon;
-
-      mainTitleIcon.classList.add(
-        'fal',
-        'fa-fw',
-        'main-title-icon',
-        'padding-right',
-        projectIcon
-      );
-      mainTitleText.textContent = projects.projectsList[index].title;
-    }
-  }
-
   // PROJECTS
   function editProject(index) {
     const allProjectIcons = modal.querySelectorAll('.icon');
@@ -302,11 +310,11 @@ const dom = (() => {
 
   function showProjects() {
     const projectsCount = document.querySelector('.projects-count');
-    const projectsLinks = document.querySelector('.projects-links-div');
+    const projectsLinksDiv = document.querySelector('.projects-links-div');
 
     // SHOW NUMBER OF PROJECTS
     projectsCount.textContent = projects.projectsList.length;
-    projectsLinks.textContent = '';
+    projectsLinksDiv.textContent = '';
 
     for (let i = 0; i < projects.projectsList.length; i += 1) {
       const projectLink = document.createElement('a');
@@ -381,7 +389,7 @@ const dom = (() => {
       projectIconAndTextDiv.appendChild(projectText);
       projectLink.appendChild(projectIconAndTextDiv);
       projectLink.appendChild(projectIconsDiv);
-      projectsLinks.appendChild(projectLink);
+      projectsLinksDiv.appendChild(projectLink);
     }
 
     manipulateModal('close');

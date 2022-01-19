@@ -74,7 +74,6 @@ const handlers = (() => {
         } else if (target.textContent === 'Edit') {
           index = parseInt(selectedLink.getAttribute('data-index'), 10);
           dom.validateModal('edit', index);
-          target = selectedLink; // Get selected project
 
           // VALIDATE MODAL FOR DELETING
         } else if (target.textContent === 'Delete') {
