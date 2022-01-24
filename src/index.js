@@ -9,18 +9,21 @@ projects.addProject('fa-tools', 'Craft Another Project');
 
 // ADD DEFAULT TASK (EXAMPLE)
 tasks.addTask(
-  0,
   'Enjoy my tea as much as my coding! 🍵',
   'Longer description of my demo task, just to show you this surprisingly nice scrollbar and amazingly cute kitty ฅ(^◉ᴥ◉^)ฅ',
   '2011-11-11',
-  'low'
+  'low',
+  0,
+  0
 );
+
 tasks.addTask(
-  1,
   'Create magic through my mind, my heart and my keyboard.. 👩🏻‍💻',
   'Longer description of my demo task, just to show you this surprisingly nice scrollbar and amazingly cute kitty ฅ(^◉ᴥ◉^)ฅ',
   '2012-12-12',
-  'high'
+  'high',
+  1,
+  0
 );
 
 // WHEN PAGE IS LOADED - SHOW TITLE FROM MENU LINK 'ALL'

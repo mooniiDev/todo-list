@@ -57,7 +57,6 @@ const dom = (() => {
     }
   }
 
-
   // MAIN CONTENT TITLE
   function showMainTitle(index) {
     const allMenuIcons = document.querySelectorAll('.menu-link-icon');
@@ -119,9 +118,11 @@ const dom = (() => {
     // GENERATE TASKS LIST
     for (let i = projectIndexStart; i < projectIndexEnd; i += 1) {
       for (let j = 0; j < projects.projectsList[i].tasks.length; j += 1) {
-
         // IF CLICKED ON MENU LINK 'IMPORTANT' - FILTER NOT IMPORTANT TASKS
-        if (menuTitle === 'important' && projects.projectsList[i].tasks[j].priority !== 'high') {
+        if (
+          menuTitle === 'important' &&
+          projects.projectsList[i].tasks[j].priority !== 'high'
+        ) {
           continue; // If task isn't important - skip it
 
           // IF CLICKED ON MENU LINK 'TODAY'
@@ -147,10 +148,8 @@ const dom = (() => {
         tasksNumber += 1;
         tasksCount.textContent = tasksNumber;
 
-        taskDiv.classList.add('task-div', 'hover-element');
-        taskDiv.setAttribute('data-index', i);
-
         // TASK PRIORITY, TEXT AND ITS DIV
+        taskDiv.classList.add('task-div', 'hover-element');
         taskIconAndTextDiv.classList.add('flex');
 
         if (projects.projectsList[i].tasks[j].priority === 'low') {
@@ -174,7 +173,6 @@ const dom = (() => {
             'high-priority',
             'padding-right'
           );
-
         } else {
           taskIcon.classList.add('fal', 'fa-circle', 'padding-right');
         }
@@ -201,7 +199,8 @@ const dom = (() => {
           'scale-element',
           'padding-right'
         );
-        taskEditIcon.setAttribute('data-index', i);
+        taskEditIcon.setAttribute('data-project-index', i);
+        taskEditIcon.setAttribute('data-task-index', j);
         taskTrashIcon.classList.add(
           'fal',
           'fa-trash-alt',
@@ -209,9 +208,12 @@ const dom = (() => {
           'scale-element',
           'padding-right'
         );
-        taskTrashIcon.setAttribute('data-index', i);
+        taskTrashIcon.setAttribute('data-project-index', i);
+        taskTrashIcon.setAttribute('data-task-index', j);
+
         taskInfoIcon.classList.add('fal', 'scale-element', 'fa-info-circle');
-        taskInfoIcon.setAttribute('data-index', i);
+        taskInfoIcon.setAttribute('data-project-index', i);
+        taskInfoIcon.setAttribute('data-task-index', j);
 
         // APPENDS
         taskIconAndTextDiv.appendChild(taskIcon);
@@ -232,9 +234,10 @@ const dom = (() => {
     let projectIndexEnd;
 
     // IF CLICKED ON PROJECT LINK
-    if (menuTitle === '' && !Number.isNaN(index)) { // If number of index exists - project was clicked
+    if (menuTitle === '' && !Number.isNaN(index)) {
+      // If number of index exists - project was clicked
       projectIndexStart = index;
-      projectIndexEnd = index + 1
+      projectIndexEnd = index + 1;
 
       // IF PROJECT DOESN'T HAVE ANY TASKS
       if (projects.projectsList[index].tasks.length === 0) {
@@ -308,25 +311,25 @@ const dom = (() => {
     }
   }
 
-
   // MODAL FUNCTIONALITY
   function watchTaskInfo(projectIndex, taskIndex) {
     const infoTaskTitle = document.querySelector('.info-task-title');
-    const infoTaskDescription = document.querySelector(
-      '.info-task-description'
-    );
+    const infoTaskDescription = document.querySelector('.info-task-description');
     const infoTaskDueDate = document.querySelector('.info-task-due-date');
     const infoTaskPriority = document.querySelector('.info-task-priority');
     const infoTaskProject = document.querySelector('.info-task-project');
 
     // TASK TITLE
-    infoTaskTitle.textContent = `${projects.projectsList[projectIndex].tasks[taskIndex].title}`;
+    infoTaskTitle.textContent =
+      projects.projectsList[projectIndex].tasks[taskIndex].title;
 
     // TASK DESCRIPTION
-    infoTaskDescription.textContent = `${projects.projectsList[projectIndex].tasks[taskIndex].description}`;
+    infoTaskDescription.textContent =
+      projects.projectsList[projectIndex].tasks[taskIndex].description;
 
     // TASK DUE DATE
-    infoTaskDueDate.textContent = `${projects.projectsList[projectIndex].tasks[taskIndex].date}`;
+    infoTaskDueDate.textContent =
+      projects.projectsList[projectIndex].tasks[taskIndex].date;
 
     // TASK PRIORITY
     if (
@@ -349,7 +352,7 @@ const dom = (() => {
     infoTaskProject.textContent = projects.projectsList[projectIndex].title;
   }
 
-  function manipulateModal(state, title, task, projectIndex, taskIndex) {
+  function manipulateModal(state, title, modalTask, projectIndex, taskIndex) {
     const modalHeader = modal.querySelector('.modal-header');
     const modalMainTitle = modal.querySelector('.modal-main-title');
     const modalTaskButton = modal.querySelector('.modal-task-button');
@@ -375,7 +378,7 @@ const dom = (() => {
 
       modal.classList.remove('hide');
       modalMainTitle.textContent = title;
-      modalTaskButton.textContent = task;
+      modalTaskButton.textContent = modalTask;
       modalIconsDiv.classList.remove('hide');
       modalIconsDiv.classList.add('show');
       modalTasksDiv.classList.add('hide');
@@ -401,7 +404,7 @@ const dom = (() => {
     }
 
     // DELETION MODAL CONTENT
-    if (task === 'Delete') {
+    if (modalTask === 'Delete') {
       modalHeader.classList.add('deletion-modal-header');
       form.classList.add('hide');
       cancelButton.classList.add('cancel-deletion');
@@ -409,9 +412,7 @@ const dom = (() => {
 
       // PROJECT DELETION
       if (title === 'Delete Project') {
-        const projectDeletionTitle = document.querySelector(
-          '.project-deletion-title'
-        );
+        const projectDeletionTitle = document.querySelector('.project-deletion-title');
 
         projectDeletionText.classList.remove('hide');
         projectDeletionTitle.textContent =
@@ -419,9 +420,7 @@ const dom = (() => {
 
         // TASK DELETION
       } else if (title === 'Delete Task') {
-        const taskDeletionTitle = document.querySelector(
-          '.task-deletion-title'
-        );
+        const taskDeletionTitle = document.querySelector('.task-deletion-title');
 
         taskDeletionText.classList.remove('hide');
         taskDeletionTitle.textContent =
@@ -430,31 +429,34 @@ const dom = (() => {
     }
   }
 
-  function validateModal(task, index) {
+  function validateModal(modalTask, index) {
     const { projectFormIcon } = document.forms.form;
     const selectedLink = document.querySelector('.selected-link');
     const projectDomIcon = projectFormIcon.value;
     const projectIconsDiv = modal.querySelector('.radio-form');
     const modalTitleText = modalTitle.value;
 
-    if (task === 'add' || task === 'edit') {
+    if (modalTask === 'add' || modalTask === 'edit') {
       if (modalTitleText === '') {
         modalTitleError.classList.remove('hide');
         modalTitleError.classList.add('show');
 
         // ADD PROJECT TO ARRAY
-      } else if (task === 'add' && projectIconsDiv.classList.contains('show')) {
+      } else if (
+        modalTask === 'add' &&
+        projectIconsDiv.classList.contains('show')
+      ) {
         projects.addProject(projectDomIcon, modalTitleText);
 
         // KEEP NEWLY ADDED PROJECT VISUALLY SELECTED IN DOM
         const lastProject = projectsLinksDiv.lastChild;
-        const lastProjectIndex = projectsLinksDiv.lastChild.getAttribute('data-index');
+        const lastProjectIndex = projectsLinksDiv.lastChild.getAttribute('data-link-index');
 
-        selectLink(lastProject, lastProjectIndex)
+        selectLink(lastProject, lastProjectIndex);
         changeMainTitle(lastProject, lastProjectIndex);
 
         // EDIT PROJECT FROM ARRAY
-      } else if (task === 'edit') {
+      } else if (modalTask === 'edit') {
         projects.editProject(projectDomIcon, modalTitleText, index);
 
         // KEEP PROJECT VISUALLY SELECTED IN DOM AFTER EDITING
@@ -465,9 +467,11 @@ const dom = (() => {
         changeMainTitle(selectedLink, index);
 
         // ADD TASK TO ARRAY
-      } else if (task === 'add' && projectIconsDiv.classList.contains('hide')) {
-
-        const selectedProject = selectedLink.getAttribute('data-index');
+      } else if (
+        modalTask === 'add' &&
+        projectIconsDiv.classList.contains('hide')
+      ) {
+        const selectedProject = selectedLink.getAttribute('data-link-index');
         const taskDescription = document.querySelector('.task-description').value;
         const taskDueDate = document.querySelector('#dueDate').value;
         const taskPrioritySelection = document.querySelector('.task-priority');
@@ -494,7 +498,7 @@ const dom = (() => {
       }
 
       // DELETE PROJECT FROM ARRAY
-    } else if (task === 'delete') {
+    } else if (modalTask === 'delete') {
       const allTasksLink = document.querySelector('.link:first-child');
 
       projects.deleteProject(index);
@@ -540,18 +544,18 @@ const dom = (() => {
         'project',
         'select'
       );
-      projectIconAndTextDiv.setAttribute('data-index', i);
+      projectIconAndTextDiv.setAttribute('data-link-index', i);
       projectIconsDiv.classList.add(
         'project-default-icons-div',
         'project',
         'select'
       );
-      projectIconsDiv.setAttribute('data-index', i);
+      projectIconsDiv.setAttribute('data-link-index', i);
 
       // PROJECT LINK
       projectLink.classList.add('link', 'project-link', 'project', 'select');
       projectLink.setAttribute('href', '#');
-      projectLink.setAttribute('data-index', i);
+      projectLink.setAttribute('data-link-index', i);
 
       // PROJECT ICON
       projectIcon.classList.add(
@@ -563,12 +567,12 @@ const dom = (() => {
         'padding-right',
         projects.projectsList[i].icon
       );
-      projectIcon.setAttribute('data-index', i);
+      projectIcon.setAttribute('data-link-index', i);
 
       // PROJECT TEXT
       projectText.classList.add('project-text', 'project', 'select');
       projectText.textContent = projects.projectsList[i].title;
-      projectText.setAttribute('data-index', i);
+      projectText.setAttribute('data-link-index', i);
 
       // PROJECT DEFAULT ICONS
       projectEditIcon.classList.add(
@@ -580,7 +584,7 @@ const dom = (() => {
         'scale-element',
         'padding-right'
       );
-      projectEditIcon.setAttribute('data-index', i);
+      projectEditIcon.setAttribute('data-link-index', i);
       projectTrashIcon.classList.add(
         'fal',
         'fa-trash-alt',
@@ -589,7 +593,7 @@ const dom = (() => {
         'select',
         'scale-element'
       );
-      projectTrashIcon.setAttribute('data-index', i);
+      projectTrashIcon.setAttribute('data-link-index', i);
 
       // APPENDS
       projectIconsDiv.appendChild(projectEditIcon);
