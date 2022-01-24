@@ -1,8 +1,6 @@
 import dom from './dom';
 
 const handlers = (() => {
-  let linkIndex = 0;
-
   // RESIZE MENU DEPENDING ON WINDOW SIZE
   function resizeWindow() {
     window.addEventListener('resize', dom.responsiveMenu);
@@ -12,8 +10,7 @@ const handlers = (() => {
     document.addEventListener('click', (event) => {
       const { target } = event;
       const selectedLink = document.querySelector('.selected-link');
-
-      linkIndex = parseInt(target.getAttribute('data-link-index'), 10); // Get and index of clicked link
+      let linkIndex = parseInt(target.getAttribute('data-link-index'), 10);
 
       // TOGGLE SIDE MENU
       if (
@@ -25,9 +22,7 @@ const handlers = (() => {
         // STYLE CLICKED LINK
       } else if (target.classList.contains('select')) {
         dom.selectLink(target, linkIndex);
-
-        // IN THE MAIN CONTENT SHOW MENU TITLE ACCORDINGLY
-        dom.changeMainTitle(target, linkIndex);
+        dom.changeMainTitle(target, linkIndex); // In the main content show title according to link title
 
         // MODAL FOR EDITING A PROJECT
         if (target.classList.contains('edit-project')) {
@@ -50,27 +45,28 @@ const handlers = (() => {
 
         // MODAL FOR DELETING A TASK
       } else if (target.classList.contains('delete-task')) {
+        linkIndex = parseInt(target.getAttribute('data-project-index'), 10);
         const taskIndex = parseInt(target.getAttribute('data-task-index'), 10);
 
-        dom.manipulateModal('show', 'Delete Task', 'Delete', 0, taskIndex);
+        dom.manipulateModal('show', 'Delete Task', 'Delete', linkIndex, taskIndex);
 
         // MODAL FOR WATCHING TASK INFO
       } else if (target.classList.contains('fa-info-circle')) {
-        const projectIndex = parseInt(target.getAttribute('data-project-index'), 10);
+        linkIndex = parseInt(target.getAttribute('data-project-index'), 10);
         const taskIndex = parseInt(target.getAttribute('data-task-index'), 10);
 
-        dom.manipulateModal('show', 'Task Info', '', projectIndex, taskIndex);
+        dom.manipulateModal('show', 'Task Info', '', linkIndex, taskIndex);
 
         // VALIDATE MODAL
       } else if (target.classList.contains('confirm-modal')) {
+        linkIndex = parseInt(selectedLink.getAttribute('data-link-index'), 10);
+
         // VALIDATE MODAL FOR ADDING
         if (target.textContent === 'Add') {
           dom.validateModal('add');
 
           // VALIDATE MODAL FOR EDITING
         } else if (target.textContent === 'Edit') {
-          linkIndex = parseInt(selectedLink.getAttribute('data-link-index'), 10);
-
           dom.validateModal('edit', linkIndex);
 
           // VALIDATE MODAL FOR DELETING
@@ -79,10 +75,7 @@ const handlers = (() => {
 
           // DELETE A PROJECT
           if (!projectDeletionText.classList.contains('hide')) {
-            // If deletion text is shown
-            const projectIndex = parseInt(selectedLink.getAttribute('data-link-index'), 10);
-
-            dom.validateModal('delete', projectIndex);
+            dom.validateModal('delete', linkIndex);
             dom.changeMainTitle(target, 0); // After deleting a project - change icon to 'fa-calendar-alt' (menu link 'All')
             dom.showMainTitle(0); // After deleting a project - show main title as 'All'
             dom.getTasks('all'); // After deleting a project - show all tasks from all remaining projects
