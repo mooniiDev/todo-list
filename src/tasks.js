@@ -1,4 +1,5 @@
 import projects from './projects';
+import dom from './dom';
 
 const tasks = (() => {
   class Task {
@@ -18,8 +19,17 @@ const tasks = (() => {
     console.log('Add a task!');
   }
 
+  function deleteTask(projectIndex, taskIndex) {
+    if (projectIndex > -1) {
+      projects.projectsList[projectIndex].tasks.splice(taskIndex, 1);
+      dom.showTasks('', projectIndex, projects.projectsList.length);
+      dom.getTasks('all');
+    }
+  }
+
   return {
     addTask,
+    deleteTask,
   };
 })();
 
