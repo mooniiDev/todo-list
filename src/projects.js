@@ -17,10 +17,11 @@ const projects = (() => {
     dom.showProjects();
   }
 
-  function editProject(icon, title, index) {
+  function editProject(icon, title, index, target) {
     projectsList[index].icon = icon;
     projectsList[index].title = title;
     dom.showProjects();
+    dom.selectLink(target, index, 'edit');
   }
 
   function deleteProject(index) {

@@ -13,10 +13,10 @@ const handlers = (() => {
 
     document.addEventListener('click', (event) => {
       const { target } = event;
-      const selectedLink = document.querySelector('.selected-link');
       const modalMainTitle = document.querySelector('.modal-main-title');
+      const allProjectsLinks = document.querySelectorAll('.project-link');
+      const selectedLink = document.querySelector('.selected-link');
       let linkIndex = parseInt(target.getAttribute('data-link-index'), 10);
-      let taskIndex;
 
       // TOGGLE SIDE MENU
       if (
@@ -32,56 +32,61 @@ const handlers = (() => {
         dom.changeMainTitle(target, linkIndex); // In the main content show title according to link title
       }
 
-      // MODAL FOR ADDING A PROJECT
+      // MODAL FOR ADDING PROJECT
       if (target.classList.contains('add-project')) {
         dom.manipulateModal('show', 'Add Project', 'Add');
 
-        // MODAL FOR EDITING A PROJECT
+        // MODAL FOR EDITING PROJECT
       } else if (target.classList.contains('edit-project')) {
-        dom.manipulateModal('show', 'Edit Project', 'Edit');
-        dom.editProject(linkIndex);
+        dom.manipulateModal('show', 'Edit Project', 'Edit', linkIndex);
 
-        // MODAL FOR DELETING A PROJECT
+        // MODAL FOR DELETING PROJECT
       } else if (target.classList.contains('delete-project')) {
         dom.manipulateModal('show', 'Delete Project', 'Delete', linkIndex);
+      }
 
-        // MODAL FOR ADDING A TASK
-      } else if (target.classList.contains('add-task')) {
-        dom.manipulateModal('show', 'Add Task', 'Add');
-
-        // MODAL FOR EDITING A TASK
-      } else if (target.classList.contains('edit-task')) {
-        console.log('Task editing.');
-
-        // MODAL FOR DELETING A TASK
-      } else if (target.classList.contains('delete-task')) {
+      // MODALS FOR TASKS EDITING, DELETING AND WATCHING INFO
+      if (target.classList.contains('task-icon')) {
         project = parseInt(target.getAttribute('data-project-index'), 10);
         task = parseInt(target.getAttribute('data-task-index'), 10);
-        dom.manipulateModal('show', 'Delete Task', 'Delete', project, task);
 
-        // MODAL FOR WATCHING TASK INFO
-      } else if (target.classList.contains('fa-info-circle')) {
-        linkIndex = parseInt(target.getAttribute('data-project-index'), 10);
-        taskIndex = parseInt(target.getAttribute('data-task-index'), 10);
-        dom.manipulateModal('show', 'Task Info', '', linkIndex, taskIndex);
+        // MODAL FOR ADDING TASK
+        if (target.classList.contains('add-task')) {
+          dom.manipulateModal('show', 'Add Task', 'Add');
+
+          // MODAL FOR EDITING TASK
+        } else if (target.classList.contains('edit-task')) {
+          dom.manipulateModal('show', 'Edit Task', 'Edit', project, task);
+
+          // MODAL FOR DELETING TASK
+        } else if (target.classList.contains('delete-task')) {
+          dom.manipulateModal('show', 'Delete Task', 'Delete', project, task);
+
+          // MODAL FOR WATCHING TASK INFO
+        } else if (target.classList.contains('fa-info-circle')) {
+          dom.manipulateModal('show', 'Task Info', '', project, task);
+        }
       }
 
       // VALIDATE MODAL
       if (target.classList.contains('confirm-modal')) {
+
         // VALIDATE MODAL FOR ADDING
         if (target.textContent === 'Add') {
           dom.validateModal('add');
 
           // VALIDATE MODAL FOR EDITING
         } else if (target.textContent === 'Edit') {
-          // EDIT A PROJECT
+
+          // EDIT PROJECT
           if (modalMainTitle.textContent === 'Edit Project') {
             linkIndex = parseInt(selectedLink.getAttribute('data-link-index'), 10);
-            dom.validateModal('edit', linkIndex);
+            project = allProjectsLinks[linkIndex];
+            dom.validateModal('edit', linkIndex, '', project);
 
-            // EDIT A TASK
+            // EDIT TASK
           } else if (modalMainTitle.textContent === 'Edit Task') {
-            console.log('Edit a task!');
+            dom.validateModal('edit', project, task);
           }
 
           // VALIDATE MODAL FOR DELETING
