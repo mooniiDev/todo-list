@@ -151,7 +151,7 @@ const dom = (() => {
     infoTaskProject.textContent = projects.projectsList[projectIndex].title;
   }
 
-  function manipulateModal(state, title, modalTask, projectIndex, taskIndex) {
+  function manipulateModal(modalState, modalTask, modalAction, projectIndex, taskIndex) {
     const modalHeader = modal.querySelector('.modal-header');
     const modalMainTitle = modal.querySelector('.modal-main-title');
     const modalTaskButton = modal.querySelector('.modal-task-button');
@@ -171,19 +171,19 @@ const dom = (() => {
     cancelButton.classList.remove('cancel-deletion');
     confirmButton.classList.remove('confirm-deletion', 'hide');
 
-    if (state === 'show') {
+    if (modalState === 'show') {
       const modalIconsDiv = modal.querySelector('.radio-form');
       const modalTasksDiv = modal.querySelector('.modal-tasks-div');
 
       modal.classList.remove('hide');
-      modalMainTitle.textContent = title;
-      modalTaskButton.textContent = modalTask;
+      modalMainTitle.textContent = modalTask;
+      modalTaskButton.textContent = modalAction;
       modalIconsDiv.classList.remove('hide');
       modalIconsDiv.classList.add('show');
       modalTasksDiv.classList.add('hide');
 
       // IF MODAL IS FOR EDITING PROJECT
-      if (title === 'Edit Project') {
+      if (modalTask === 'Edit Project') {
         const allProjectIcons = modal.querySelectorAll('.icon');
         const projectIcon = projects.projectsList[projectIndex].icon;
 
@@ -198,14 +198,14 @@ const dom = (() => {
         }
 
       // IF MODAL IS FOR ADDING OR EDITING TASK
-      } else if (title === 'Add Task'||
-          title === 'Edit Task'
+      } else if (modalTask === 'Add Task'||
+          modalTask === 'Edit Task'
       ) {
         modalIconsDiv.classList.remove('show');
         modalIconsDiv.classList.add('hide');
         modalTasksDiv.classList.remove('hide');
 
-        if (title === 'Edit Task') {
+        if (modalTask === 'Edit Task') {
           modalTitle.value = projects.projectsList[projectIndex].tasks[taskIndex].title;
           taskDescription.value = projects.projectsList[projectIndex].tasks[taskIndex].description;
           taskDueDate.value = projects.projectsList[projectIndex].tasks[taskIndex].date;
@@ -213,7 +213,7 @@ const dom = (() => {
         }
 
         // IF MODAL IS FOR WATCHING TASK INFO
-      } else if (title === 'Task Info') {
+      } else if (modalTask === 'Task Info') {
         form.classList.add('hide');
         confirmButton.classList.add('hide');
         taskInfoDiv.classList.remove('hide');
@@ -221,26 +221,26 @@ const dom = (() => {
       }
 
       // TO CLOSE THE MODAL
-    } else if (state === 'close') {
+    } else if (modalState === 'close') {
       modal.classList.add('hide');
     }
 
     // DELETION MODAL CONTENT
-    if (modalTask === 'Delete') {
+    if (modalAction === 'Delete') {
       modalHeader.classList.add('deletion-modal-header');
       form.classList.add('hide');
       cancelButton.classList.add('cancel-deletion');
       confirmButton.classList.add('confirm-deletion');
 
       // PROJECT DELETION
-      if (title === 'Delete Project') {
+      if (modalTask === 'Delete Project') {
         const projectDeletionTitle = document.querySelector('.project-deletion-title');
 
         projectDeletionText.classList.remove('hide');
         projectDeletionTitle.textContent = projects.projectsList[projectIndex].title;
 
         // TASK DELETION
-      } else if (title === 'Delete Task') {
+      } else if (modalTask === 'Delete Task') {
         const taskDeletionTitle = document.querySelector('.task-deletion-title');
 
         taskDeletionText.classList.remove('hide');
@@ -386,8 +386,7 @@ const dom = (() => {
     let projectIndexEnd;
 
     // IF CLICKED ON PROJECT LINK
-    if (menuTitle === '' && !Number.isNaN(projectIndex)) {
-      // If number of index exists - project was clicked
+    if (menuTitle === 'project') {
       projectIndexStart = projectIndex;
       projectIndexEnd = projectIndex + 1;
 
@@ -435,9 +434,8 @@ const dom = (() => {
 
     // IF CLICKED SOMEWHERE ON PROJECT LINK
     if (target.classList.contains('project')) {
-      // SHOW BUTTON TO ADD TASK FOR SELECTED PROJECT
-      addTaskButton.classList.remove('hide');
-      getTasks('', index);
+      addTaskButton.classList.remove('hide'); // Show button to add task for selected project
+      getTasks('project', index);
 
       // IF CLICKED ON PROJECT ICON OR TEXT OR EDIT/DELETE ICONS
       if (
@@ -467,21 +465,21 @@ const dom = (() => {
     }
   }
 
-  function validateModal(modalTask, projectIndex, taskIndex, target) {
+  function validateModal(modalAction, projectIndex, taskIndex, clickedLink) {
     const { projectFormIcon } = document.forms.form;
     const projectDomIcon = projectFormIcon.value;
     const projectIconsDiv = modal.querySelector('.radio-form');
     const modalTitleText = modalTitle.value;
     const projectDeletionText = document.querySelector('.project-deletion-text');
 
-    if (modalTask === 'add' || modalTask === 'edit') {
+    if (modalAction === 'add' || modalAction === 'edit') {
       if (modalTitleText === '') {
         modalTitleError.classList.remove('hide');
         modalTitleError.classList.add('show');
 
         // ADD PROJECT TO ARRAY
       } else if (
-        modalTask === 'add' &&
+        modalAction === 'add' &&
         projectIconsDiv.classList.contains('show')
       ) {
         projects.addProject(projectDomIcon, modalTitleText);
@@ -494,18 +492,18 @@ const dom = (() => {
         changeMainTitle(lastProject, lastProjectIndex);
 
         // EDIT PROJECT FROM ARRAY
-      } else if (modalTask === 'edit' &&
+      } else if (modalAction === 'edit' &&
         projectIconsDiv.classList.contains('show')
       ) {
         const allProjectsLinks = document.querySelectorAll('.project-link');
         const editedProject = allProjectsLinks[projectIndex];
 
-        projects.editProject(projectDomIcon, modalTitleText, projectIndex, target);
+        projects.editProject(projectDomIcon, modalTitleText, projectIndex, clickedLink);
         changeMainTitle(editedProject, projectIndex);
 
         // ADD TASK TO ARRAY
       } else if (
-        modalTask === 'add' &&
+        modalAction === 'add' &&
         projectIconsDiv.classList.contains('hide')
       ) {
         const selectedLink = document.querySelector('.selected-link');
@@ -530,11 +528,29 @@ const dom = (() => {
           taskDueDate.value,
           taskPriority
         );
+
+        // EDIT TASK FROM ARRAY
+      } else if (modalAction === 'edit' &&
+        projectIconsDiv.classList.contains('hide')
+      ) {
+        const taskNewTitle = modalTitle.value;
+        const taskNewDescription = taskDescription.value;
+        const taskNewDate = taskDueDate.value;
+        const taskNewPriority = taskPrioritySelection.value;
+
+        tasks.editTask(
+          taskNewTitle,
+          taskNewDescription,
+          taskNewDate,
+          taskNewPriority,
+          projectIndex,
+          taskIndex
+        );
       }
 
       // DELETE PROJECT FROM ARRAY
     } else if (
-      modalTask === 'delete' &&
+      modalAction === 'delete' &&
       !projectDeletionText.classList.contains('hide')
     ) {
       const allTasksLink = document.querySelector('.link:first-child');
@@ -544,7 +560,7 @@ const dom = (() => {
 
       // DELETE TASK FROM ARRAY
     } else if (
-      modalTask === 'delete' &&
+      modalAction === 'delete' &&
       projectDeletionText.classList.contains('hide')
     ) {
       tasks.deleteTask(projectIndex, taskIndex);
@@ -609,6 +625,7 @@ const dom = (() => {
         'fal',
         'fa-edit',
         'project',
+        'project-icon',
         'edit-project',
         'select',
         'scale-element',
@@ -619,6 +636,7 @@ const dom = (() => {
         'fal',
         'fa-trash-alt',
         'project',
+        'project-icon',
         'delete-project',
         'select',
         'scale-element'
