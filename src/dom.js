@@ -219,10 +219,6 @@ const dom = (() => {
         taskInfoDiv.classList.remove('hide');
         watchTaskInfo(projectIndex, taskIndex);
       }
-
-      // TO CLOSE THE MODAL
-    } else if (modalState === 'close') {
-      modal.classList.add('hide');
     }
 
     // DELETION MODAL CONTENT
@@ -247,6 +243,11 @@ const dom = (() => {
         taskDeletionTitle.textContent =
           projects.projectsList[projectIndex].tasks[taskIndex].title;
       }
+    }
+
+    // TO CLOSE THE MODAL
+    if (modalState === 'close') {
+      modal.classList.add('hide');
     }
   }
 
@@ -471,7 +472,9 @@ const dom = (() => {
     const projectIconsDiv = modal.querySelector('.radio-form');
     const modalTitleText = modalTitle.value;
     const projectDeletionText = document.querySelector('.project-deletion-text');
+    let menuTitle = clickedLink.getAttribute('data-title');
 
+    // MODALS TO ADD AND EDIT PROJECTS AND TASKS
     if (modalAction === 'add' || modalAction === 'edit') {
       if (modalTitleText === '') {
         modalTitleError.classList.remove('hide');
@@ -548,6 +551,7 @@ const dom = (() => {
         );
       }
 
+      // MODALS TO DELETE PROJECTS AND TASKS
       // DELETE PROJECT FROM ARRAY
     } else if (
       modalAction === 'delete' &&
@@ -564,6 +568,16 @@ const dom = (() => {
       projectDeletionText.classList.contains('hide')
     ) {
       tasks.deleteTask(projectIndex, taskIndex);
+
+      // IF TASK DELETED FROM CLICKED MENU LINK
+      if (clickedLink.classList.contains('menu-link')) {
+        menuTitle = clickedLink.getAttribute('data-title');
+
+        // IF TASK DELETED FROM CLICKED PROJECTS LINK
+      } else if (clickedLink.classList.contains('project-link')) {
+        menuTitle = 'project';
+      }
+      getTasks(menuTitle, projectIndex);
     }
   }
 
