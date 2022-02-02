@@ -75,6 +75,7 @@ const dom = (() => {
       menuIcon
     );
     mainTitleText.textContent = menuTexts[index].textContent;
+    document.title = `ToDo - ${mainTitleText.textContent}`;
   }
 
   function changeMainTitle(target, index) {
@@ -109,6 +110,7 @@ const dom = (() => {
         projectIcon
       );
       mainTitleText.textContent = projects.projectsList[index].title;
+      document.title = `ToDo - ${mainTitleText.textContent}`;
     }
   }
 
