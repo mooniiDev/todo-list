@@ -77,7 +77,8 @@ const handlers = (() => {
 
         // VALIDATE MODAL FOR ADDING
         if (target.textContent === 'Add') {
-          dom.validateModal('add');
+          projectIndex = parseInt(selectedLink.getAttribute('data-link-index'), 10);
+          dom.validateModal('add', projectIndex, '', selectedLink);
 
           // VALIDATE MODAL FOR EDITING
         } else if (target.textContent === 'Edit') {
