@@ -146,7 +146,7 @@ select:focus {
 .link,
 .project-link {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   padding: 12px 20px;
   background-color: var(--white);
   font-size: 17px;
@@ -174,9 +174,6 @@ select:focus {
 }
 
 /* PROJECTS */
-#nav-projects {
-  min-height: calc(100vh - 466px);
-}
 .nav-projects-title {
   display: flex;
   justify-content: space-between;
@@ -291,6 +288,7 @@ select:focus {
 
 /* FOOTER */
 #footer {
+  margin: 20px 0 40px 0;
   text-align: center;
   border-top: 1px solid var(--dark-grey);
 }
