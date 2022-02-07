@@ -1,4 +1,5 @@
 import dom from './dom';
+import tasks from './tasks';
 
 const handlers = (() => {
   // RESIZE MENU DEPENDING ON WINDOW SIZE
@@ -114,6 +115,17 @@ const handlers = (() => {
       // CLOSE MODAL
       if (target.classList.contains('close')) {
         dom.manipulateModal('close');
+      }
+
+      // MARK TASK AS COMPLETED
+      if (target.classList.contains('task-div') ||
+        target.classList.contains('fa-circle') ||
+        target.classList.contains('fa-check-circle') ||
+        target.classList.contains('task-text')
+      ) {
+        projectIndex = parseInt(target.getAttribute('data-project-index'), 10);
+        taskIndex = parseInt(target.getAttribute('data-task-index'), 10);
+        tasks.toggleTaskCompletion(projectIndex, taskIndex, selectedLink);
       }
     });
   }

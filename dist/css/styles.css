@@ -66,6 +66,9 @@ select:focus {
 .high-priority {
   color: var(--red);
 }
+.task-done-text {
+  text-decoration-line: line-through;
+}
 
 /* HEADER */
 #header {

@@ -10,6 +10,7 @@ const tasks = (() => {
       this.priority = priority;
       this.projectIndex = projectIndex;
       this.taskIndex = taskIndex;
+      this.completed = false;
     }
   }
 
@@ -33,10 +34,28 @@ const tasks = (() => {
     }
   }
 
+  function toggleTaskCompletion(projectIndex, taskIndex, selectedLink) {
+    let clickedLink;
+
+    if (projects.projectsList[projectIndex].tasks[taskIndex].completed === false) {
+      projects.projectsList[projectIndex].tasks[taskIndex].completed = true;
+    } else {
+      projects.projectsList[projectIndex].tasks[taskIndex].completed = false;
+    }
+
+    if (selectedLink.classList.contains('project')) {
+      clickedLink = 'project';
+    } else {
+      clickedLink = selectedLink.getAttribute('data-title');
+    }
+    dom.getTasks(clickedLink, projectIndex);
+  }
+
   return {
     addTask,
     editTask,
     deleteTask,
+    toggleTaskCompletion
   };
 })();
 

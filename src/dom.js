@@ -277,6 +277,12 @@ const dom = (() => {
           // IF CLICKED ON MENU LINK 'WEEK'
         } else if (menuTitle === 'week') {
           console.log('Tasks of the week..');
+
+          // IF CLICKED ON MENU LINK 'COMPLETED'
+        } else if (menuTitle === 'completed' &&
+          projects.projectsList[i].tasks[j].completed !== true
+        ) {
+          continue; // If task isn't completed - skip it
         }
 
         const taskDiv = document.createElement('div');
@@ -296,34 +302,25 @@ const dom = (() => {
         // TASK PRIORITY, TEXT AND ITS DIV
         taskDiv.classList.add('task-div', 'hover-element');
         taskIconAndTextDiv.classList.add('flex');
+        taskDiv.setAttribute('data-project-index', i);
+        taskDiv.setAttribute('data-task-index', j);
 
         if (projects.projectsList[i].tasks[j].priority === 'low') {
-          taskIcon.classList.add(
-            'fal',
-            'fa-circle',
-            'low-priority',
-            'padding-right'
-          );
+          taskIcon.classList.add('low-priority');
         } else if (projects.projectsList[i].tasks[j].priority === 'medium') {
-          taskIcon.classList.add(
-            'fal',
-            'fa-circle',
-            'mid-priority',
-            'padding-right'
-          );
+          taskIcon.classList.add('mid-priority');
         } else if (projects.projectsList[i].tasks[j].priority === 'high') {
-          taskIcon.classList.add(
-            'fal',
-            'fa-circle',
-            'high-priority',
-            'padding-right'
-          );
+          taskIcon.classList.add('high-priority');
         } else {
-          taskIcon.classList.add('fal', 'fa-circle', 'padding-right');
+          taskIcon.classList.add('fal', 'padding-right');
         }
+        taskIcon.setAttribute('data-project-index', i);
+        taskIcon.setAttribute('data-task-index', j);
 
         taskText.classList.add('task-text');
         taskText.textContent = projects.projectsList[i].tasks[j].title;
+        taskText.setAttribute('data-project-index', i);
+        taskText.setAttribute('data-task-index', j);
 
         // TASK INFO DIV
         taskInfo.classList.add('flex');
@@ -380,6 +377,15 @@ const dom = (() => {
         taskDiv.appendChild(taskIconAndTextDiv);
         taskDiv.appendChild(taskInfo);
         tasksList.appendChild(taskDiv);
+
+        // TASK COMPLETION
+        if (projects.projectsList[i].tasks[j].completed === false) {
+          taskText.classList.remove('task-done-text');
+          taskIcon.classList.add('fal' ,'fa-circle', 'padding-right');
+        } else {
+          taskText.classList.add('task-done-text');
+          taskIcon.classList.add('fal', 'fa-check-circle', 'padding-right');
+        }
       }
     }
     manipulateModal('close');
