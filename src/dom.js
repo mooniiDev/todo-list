@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import projects from './projects';
 import tasks from './tasks';
 
@@ -272,7 +273,12 @@ const dom = (() => {
 
           // IF CLICKED ON MENU LINK 'TODAY'
         } else if (menuTitle === 'today') {
-          console.log('Tasks for today..');
+          const todayDate = format(new Date(), 'yyyy-MM-dd');
+
+          if (projects.projectsList[i].tasks[j].date !== todayDate
+          ) {
+            continue; // If task isn't for today - skip it
+          }
 
           // IF CLICKED ON MENU LINK 'WEEK'
         } else if (menuTitle === 'week') {
