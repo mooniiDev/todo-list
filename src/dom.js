@@ -1,4 +1,4 @@
-import { format } from 'date-fns';
+import { format, parseISO, differenceInDays } from 'date-fns';
 import projects from './projects';
 import tasks from './tasks';
 
@@ -256,6 +256,7 @@ const dom = (() => {
   }
 
   function showTasks(menuTitle, projectIndexStart, projectIndexEnd) {
+    const todayDate = format(new Date(), 'yyyy-MM-dd');
     let tasksNumber = 0;
 
     tasksCount.textContent = 0;
@@ -273,7 +274,6 @@ const dom = (() => {
 
           // IF CLICKED ON MENU LINK 'TODAY'
         } else if (menuTitle === 'today') {
-          const todayDate = format(new Date(), 'yyyy-MM-dd');
 
           if (projects.projectsList[i].tasks[j].date !== todayDate
           ) {
@@ -282,7 +282,14 @@ const dom = (() => {
 
           // IF CLICKED ON MENU LINK 'WEEK'
         } else if (menuTitle === 'week') {
-          console.log('Tasks of the week..');
+          const dateOfToday = parseISO(todayDate);
+          const dateOfTask = parseISO(projects.projectsList[i].tasks[j].date)
+
+          if (!(differenceInDays(dateOfTask, dateOfToday) <= 7 &&
+             differenceInDays(dateOfTask, dateOfToday) >= 0
+          )) {
+           continue; // If the task isn't due within a week from today - skip it
+          }
 
           // IF CLICKED ON MENU LINK 'COMPLETED'
         } else if (menuTitle === 'completed' &&
