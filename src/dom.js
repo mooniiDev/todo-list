@@ -408,6 +408,9 @@ const dom = (() => {
     let projectIndexStart;
     let projectIndexEnd;
 
+    // SAVE PROJECTS WITH TASKS TO LOCAL STORAGE
+    localStorage.setItem('projects', JSON.stringify(projects.projectsList));
+
     // IF CLICKED ON PROJECT LINK
     if (menuTitle === 'project') {
       projectIndexStart = projectIndex;
@@ -560,7 +563,6 @@ const dom = (() => {
         taskPriority,
         projectIndex
       );
-      getTasks('project', projectIndex);
 
       // IF TASK IS GOING TO BE EDITED OR DELETED
     } else if (modalAction === 'edit' ||
@@ -602,6 +604,9 @@ const dom = (() => {
 
   function showProjects() {
     const projectsCount = document.querySelector('.projects-count');
+
+    // SAVE PROJECTS TO LOCAL STORAGE
+    localStorage.setItem('projects', JSON.stringify(projects.projectsList));
 
     // SHOW NUMBER OF PROJECTS
     projectsCount.textContent = projects.projectsList.length;
