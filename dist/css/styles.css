@@ -36,12 +36,10 @@ select:focus {
   outline: none;
 }
 
-/* ALIGNING */
+/* VISUAL STYLES */
 .padding-right {
   padding-right: 7px;
 }
-
-/* VISUAL STYLES */
 .hide {
   display: none;
 }
@@ -55,6 +53,7 @@ select:focus {
   cursor: pointer;
 }
 .scale-element:hover {
+  -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
 .low-priority {
@@ -106,9 +105,11 @@ select:focus {
   opacity: 0;
 }
 .toggle-menu.active .burger-line:first-child {
+  -webkit-transform: rotate(45deg) translate(4px, 4px);
   transform: rotate(45deg) translate(4px, 4px);
 }
 .toggle-menu.active .burger-line:nth-child(2) {
+  -webkit-transform: rotate(-45deg);
   transform: rotate(-45deg);
 }
 .show-sidebar {
@@ -341,12 +342,12 @@ select:focus {
   opacity: 1;
 }
 
-
 /* MODAL STYLES */
 @keyframes fadeIn {
   from {opacity: 0}
   to {opacity: 1}
 }
+
 #modal {
   position: fixed;
   left: 0;
@@ -396,33 +397,7 @@ select:focus {
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
 }
-#form input,
-.task-description,
-.task-priority {
-  width: 100%;
-  margin: 5px 0 20px 0;
-  padding: 10px;
-  background-color: var(--white);
-  color: var(--dark-grey);
-  border: 1px solid var(--grey);
-  border-radius: 3px;
-  transition: .3s;
-}
-#form input:focus,
-.task-description:focus,
-.task-priority:focus {
-  border-color: var(--aqua);
-  transition: .3s;
-}
-.title-star {
-  color: var(--red);
-}
-.modal-title-error {
-  margin: -15px 0 20px 0;
-  font-size: 13px;
-  color: var(--red);
-}
-.modal-options {
+.modal-buttons {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -451,6 +426,34 @@ select:focus {
 }
 .confirm-modal:hover {
   background-color: var(--dark-aqua);
+}
+
+/* MODAL FORM INPUT STYLES */
+#form input,
+.task-description,
+.task-priority {
+  width: 100%;
+  margin: 5px 0 20px 0;
+  padding: 10px;
+  background-color: var(--white);
+  color: var(--dark-grey);
+  border: 1px solid var(--grey);
+  border-radius: 3px;
+  transition: .3s;
+}
+#form input:focus,
+.task-description:focus,
+.task-priority:focus {
+  border-color: var(--aqua);
+  transition: .3s;
+}
+.title-star {
+  color: var(--red);
+}
+.modal-title-error {
+  margin: -15px 0 20px 0;
+  font-size: 13px;
+  color: var(--red);
 }
 
 /* MODAL TO DELETE A PROJECT */
@@ -515,45 +518,34 @@ select:focus {
 
 /* RESPONSIVE */
 @media (max-width: 1500px) {
-
   .task-text {
     max-width: 500px;
   }
-
 }
 
 @media (max-width: 1200px) {
-
   .task-text {
     max-width: 400px;
   }
-
 }
 
 @media (max-width: 1000px) {
-
   .toggle-menu {
     display: block;
   }
-
   .task-text {
     max-width: 500px;
   }
-
 }
 
 @media (max-width: 800px) {
-
   .task-text {
     max-width: 200px;
   }
-
 }
 
 @media (max-width: 500px) {
-
   .task-text {
     max-width: 100px;
   }
-
 }

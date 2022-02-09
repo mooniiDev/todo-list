@@ -32,6 +32,7 @@ const dom = (() => {
       // EXPAND MAIN CONTENT
       mainContent.classList.remove('contract-main');
       mainContent.classList.add('expand-main');
+
     } else {
       // SHOW SIDEBAR AND MAKE IT A BIT TRANSPARENT
       sidebarMenu.classList.remove('hide-sidebar');
@@ -265,6 +266,16 @@ const dom = (() => {
     // GENERATE TASKS LIST
     for (let i = projectIndexStart; i < projectIndexEnd; i += 1) {
       for (let j = 0; j < projects.projectsList[i].tasks.length; j += 1) {
+        const taskDiv = document.createElement('div');
+        const taskIconAndTextDiv = document.createElement('div');
+        const taskIcon = document.createElement('i');
+        const taskText = document.createElement('p');
+        const taskInfo = document.createElement('div');
+        const taskDate = document.createElement('p');
+        const taskEditIcon = document.createElement('i');
+        const taskTrashIcon = document.createElement('i');
+        const taskInfoIcon = document.createElement('i');
+
         // IF CLICKED ON MENU LINK 'IMPORTANT' - FILTER NOT IMPORTANT TASKS
         if (
           menuTitle === 'important' &&
@@ -295,18 +306,8 @@ const dom = (() => {
         } else if (menuTitle === 'completed' &&
           projects.projectsList[i].tasks[j].completed !== true
         ) {
-          continue; // If task isn't completed - skip it
+          continue; // If task isn't completed yet - skip it
         }
-
-        const taskDiv = document.createElement('div');
-        const taskIconAndTextDiv = document.createElement('div');
-        const taskIcon = document.createElement('i');
-        const taskText = document.createElement('p');
-        const taskInfo = document.createElement('div');
-        const taskDate = document.createElement('p');
-        const taskEditIcon = document.createElement('i');
-        const taskTrashIcon = document.createElement('i');
-        const taskInfoIcon = document.createElement('i');
 
         // SHOW NUMBER OF TASKS
         tasksNumber += 1;
@@ -376,7 +377,7 @@ const dom = (() => {
           'task-icon',
           'scale-element',
           'fa-info-circle'
-          );
+        );
         taskInfoIcon.setAttribute('data-project-index', i);
         taskInfoIcon.setAttribute('data-task-index', j);
 
@@ -394,10 +395,18 @@ const dom = (() => {
         // TASK COMPLETION
         if (projects.projectsList[i].tasks[j].completed === false) {
           taskText.classList.remove('task-done-text');
-          taskIcon.classList.add('fal' ,'fa-circle', 'padding-right');
+          taskIcon.classList.add(
+            'fal',
+            'fa-circle',
+            'padding-right'
+          );
         } else {
           taskText.classList.add('task-done-text');
-          taskIcon.classList.add('fal', 'fa-check-circle', 'padding-right');
+          taskIcon.classList.add(
+            'fal',
+            'fa-check-circle',
+            'padding-right'
+          );
         }
       }
     }
@@ -497,6 +506,7 @@ const dom = (() => {
     const modalTitleText = modalTitle.value;
     const projectDeletionText = document.querySelector('.project-deletion-text');
     const menuLinkAll = document.querySelector('.link:first-child');
+    let taskPriority;
 
     // CHECK FOR MODAL TITLE ERROR IF MODAL FORM IS SHOWN
     if (!form.classList.contains('hide') &&
@@ -543,7 +553,6 @@ const dom = (() => {
       modalAction === 'add' &&
       projectIconsDiv.classList.contains('hide')
     ) {
-      let taskPriority;
 
       // CHECK TASK PRIORITY
       if (taskPrioritySelection.value === 'low') {
@@ -621,7 +630,6 @@ const dom = (() => {
       const projectEditIcon = document.createElement('i');
       const projectTrashIcon = document.createElement('i');
 
-
       // PROJECT ICON/TEXT AND DEFAULT ICONS DIVS
       projectIconAndTextDiv.classList.add(
         'project-icon-and-text-div',
@@ -670,6 +678,7 @@ const dom = (() => {
         'padding-right'
       );
       projectEditIcon.setAttribute('data-link-index', i);
+
       projectTrashIcon.classList.add(
         'fal',
         'fa-trash-alt',

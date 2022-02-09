@@ -16,6 +16,7 @@ const tasks = (() => {
 
   function addTask(title, description, date, priority, projectIndex, taskIndex) {
     const task = new Task(title, description, date, priority, projectIndex, taskIndex);
+
     projects.projectsList[projectIndex].tasks.push(task);
     dom.getTasks('project', projectIndex);
   }
@@ -50,8 +51,6 @@ const tasks = (() => {
       clickedLink = selectedLink.getAttribute('data-title');
     }
     dom.getTasks(clickedLink, projectIndex);
-    // // SAVE TASKS TO LOCAL STORAGE
-    // localStorage.setItem('projects', JSON.stringify(projects.projectsList));
   }
 
   return {
