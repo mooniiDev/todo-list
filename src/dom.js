@@ -521,6 +521,7 @@ const dom = (() => {
       projectIconsDiv.classList.contains('show')
     ) {
       projects.addProject(projectDomIcon, modalTitleText);
+      mainContent.classList.remove('inactive-main');
 
       // KEEP NEWLY ADDED PROJECT VISUALLY SELECTED
       const lastProject = projectsLinksDiv.lastChild;
